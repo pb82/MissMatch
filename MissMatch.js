@@ -11,7 +11,7 @@
  * 
  * missmatch(candidateObj, {
  *  'o(.x@x, .y@y)' : function () { return this.x * this.y },
- *  'a(n@x, n@y)    : function () { return this.x * this.y },
+ *  'a(n@x, n@y)'   : function () { return this.x * this.y },
  *    ...
  * });
  */

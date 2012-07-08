@@ -65,10 +65,10 @@ Patterns can contain string literals:
     
 The rest of an array can also be matched (and bound):
 
-  - a(_,_,_|) matches an array that is required to contain at least
-    three values, but may also contain more.
+  - a(n,n,n|) matches an array that is required to contain at least
+    three numeric values, but may also contain more.
     
-  - a(_,_,_|@r) matches the same array, but binds the rest (everything
+  - a(n,n,n|@r) matches the same array, but binds the rest (everything
     but the first three items) to the variable 'r'.
 
 
