@@ -34,13 +34,13 @@ Patterns can also be bound to variables:
   - a(n@x, n@y) matches an array that is composed of exactly two numbers  
     where the first one is bound to the variable 'x' and the second one  
     to 'y'. This can be used in the handler function for a pattern:  
-    ``` js
-      missmatch(candidate, {   
-        ...   
-        'a(n@x, n@y)': function () { return this.x * this.y; },  
-        ...   
-      });   
-    ```  
+``` js
+missmatch(candidate, {   
+...   
+'a(n@x, n@y)': function () { return this.x * this.y; },  
+...   
+});   
+```  
     
     
 Object patterns can have type specifiers:  
