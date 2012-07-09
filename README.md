@@ -49,9 +49,8 @@ Object patterns can have type specifiers:
     
       * o(.x:n@x)  
       
-  - o(.coord:o(.x:n@x, .y:n@y)) matches an object that has (at least) a property 'coord'. 'coord' further required to be an object an provide
-    (at least) the properties 'x' and 'y'. They are then bound to
-    variables and can be used in the handler function.  
+  - o(.coord:o(.x:n@x, .y:n@y)) matches an object that has (at least) a property 'coord'. 'coord' is further required to be an object and provide
+    (at least) the properties 'x' and 'y'. They are then bound to variables and can be used in the handler function.  
     
 
 Patterns can contain string literals:
