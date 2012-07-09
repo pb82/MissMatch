@@ -1,5 +1,5 @@
 MissMatch
----------
+=========
 
 A pattern-matcher for JavaScript. It allows you to match any kind of
 JavaScript value against patterns, bind values to names and execute
@@ -17,7 +17,8 @@ Patterns are composed in a simple and concise syntax:
   - '_' means wildcard (match anything)
 
 
-Patterns can of course be nested:  
+Patterns can of course be nested:
+---------------------------------
 
   - a(n, n) matches an array with exactly two numbers(e.g. [1,2]).  
   
@@ -29,11 +30,13 @@ Patterns can of course be nested:
     the two properties 'x' and 'y'.  
 
 
-Patterns can also be bound to variables:  
+Patterns can also be bound to variables:
+--------------------------------- 
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers  
     where the first one is bound to the variable 'x' and the second one  
     to 'y'. This can be used in the handler function for a pattern:  
+    
 ```  js
 missmatch(candidate, {   
 ...   
@@ -43,7 +46,8 @@ missmatch(candidate, {
 
 ```
     
-Object patterns can have type specifiers:  
+Object patterns can have type specifiers:
+-----------------------------------------
 
   - o(.x:n) matches an object with at least a property 'x' which is  
     required to be a number. You can also bind the number value:  
@@ -56,7 +60,8 @@ Object patterns can have type specifiers:
     variables and can be used in the handler function.  
     
 
-Patterns can contain string literals:  
+Patterns can contain string literals:
+-------------------------------------
 
   - '"a_str"' matches the string "a_str". Note that the double-quotation  
     is required.  
@@ -65,7 +70,8 @@ Patterns can contain string literals:
     required to be a string with the value 'a_str'.  
     
     
-The rest of an array can also be matched (and bound):  
+The rest of an array can also be matched (and bound):
+-----------------------------------------------------
 
   - a(n,n,n|) matches an array that is required to contain at least  
     three numeric values, but may also contain more.  
