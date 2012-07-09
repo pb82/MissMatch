@@ -47,7 +47,7 @@ Object patterns can have type specifiers:
 
   - o(.x:n) matches an object with at least a property 'x' which is required to be a number. You can also bind the number value:  
     
-      o(.x:n@x)  
+      * o(.x:n@x)  
       
   - o(.coord:o(.x:n@x, .y:n@y)) matches an object that has (at least) a property 'coord'. 'coord' further required to be an object an provide
     (at least) the properties 'x' and 'y'. They are then bound to
