@@ -70,6 +70,8 @@ The rest of an array can also be matched (and bound):
   - a(n,n,n|@r) matches the same array, but binds the rest (everything but the first three items) to the variable 'r'.  
 
 
-Version History:  
+
+Version History:
+----------------
 
   - 0.1: Initial Release.  
