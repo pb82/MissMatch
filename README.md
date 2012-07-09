@@ -1,5 +1,5 @@
 MissMatch
-=========
+---------
 
 A pattern-matcher for JavaScript. It allows you to match any kind of
 JavaScript value against patterns, bind values to names and execute
