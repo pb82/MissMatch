@@ -36,7 +36,7 @@ Patterns can also be bound to variables:
     to 'y'. This can be used in the handler function for a pattern:  
     
 ```  js
-mm(candidate, {   
+mm.match(candidate, {   
 'a(n@x, n@y)': function () { return this.x * this.y; },
 '_': function () { /* Match all */ }
 });  
