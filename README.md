@@ -1,8 +1,8 @@
 MissMatch
 =========
 
-A pattern-matcher for JavaScript. It allows you to match any kind of  
-JavaScript value against patterns, bind values to names and execute  
+A pattern-matcher for JavaScript. It allows you to match any kind of
+JavaScript value against patterns, bind values to names and execute
 handler functions, when a pattern matches  
 
 Patterns are composed in a simple and concise syntax:  
@@ -34,13 +34,13 @@ Patterns can also be bound to variables:
   - a(n@x, n@y) matches an array that is composed of exactly two numbers  
     where the first one is bound to the variable 'x' and the second one  
     to 'y'. This can be used in the handler function for a pattern:  
-    ```javascript
-      missmatch(candidate, {  
-        ...  
+    ``` js
+      missmatch(candidate, {   
+        ...   
         'a(n@x, n@y)': function () { return this.x * this.y; },  
-        ...  
-      });  
-    ```
+        ...   
+      });   
+    ```  
     
     
 Object patterns can have type specifiers:  
