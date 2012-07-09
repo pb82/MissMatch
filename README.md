@@ -37,7 +37,8 @@ Patterns can also be bound to variables:
     
 ```  js
 missmatch(candidate, {   
-'a(n@x, n@y)': function () { return this.x * this.y; },  
+'a(n@x, n@y)': function () { return this.x * this.y; },
+'_': function () { /* Match all */ }
 });  
 
 ```
