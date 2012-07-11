@@ -54,8 +54,8 @@ Object patterns can have type specifiers:
     (at least) the properties 'x' and 'y'. They are then bound to variables and can be used in the handler function.  
     
 
-Patterns can contain string literals:
--------------------------------------
+Patterns can contain literals:
+------------------------------
 
   Literals can be matched for strings, numbers and booleans. Literals may also be bound to names.
   
