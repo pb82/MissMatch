@@ -57,9 +57,13 @@ Object patterns can have type specifiers:
 Patterns can contain string literals:
 -------------------------------------
 
-  - '"a_str"' matches the string "a_str". Note that the double-quotation is required.  
-    
-  - a('a_str') matches an array, that contains excatly one item which is required to be a string with the value 'a_str'.  
+  Literals can be matched for strings, numbers and booleans. Literals may also be bound to names.
+  
+  - n(121.5) denotes the numeric literal 121.5.
+  
+  - b(true) denotes the boolean literal true.
+  
+  - s(a_string) denotes the string literal 'a_string'. Note that you don't have to quote the literal within the parentheses. Any quotation will be considered as a part of the string.
     
     
 The rest of an array can also be matched (and bound):

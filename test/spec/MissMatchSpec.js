@@ -21,6 +21,28 @@ describe("Simple pattern tests", function() {
   });  
 });
 
+describe("Literals test", function() {
+  it("should recognize string, numeric and boolean literals", function() {          
+    expect(mm.match(121.5, { 'n(121.5)@n': "return this.n" })).toBe(121.5);
+    expect(mm.match(true, { 'b(true)@n': "return this.n" })).toBe(true);
+    expect(mm.match(false, { 'b(false)@n': "return this.n" })).toBe(false);
+    expect(mm.match('string_a', { 's(string_a)@n': "return this.n" })).toBe("string_a");
+    expect(mm.match('"string_a"', { 's("string_a")@n': "return this.n" })).toBe('"string_a"');
+    expect(thunk(mm.match, [false, { 'b(true)@n': "return this.n" }])).toThrow("Non-exhaustive patterns");
+    expect(thunk(mm.match, ['true', { 'b(true)@n': "return this.n" }])).toThrow("Non-exhaustive patterns");
+    expect(thunk(mm.match, [false, { 's(false)@n': "return this.n" }])).toThrow("Non-exhaustive patterns");    
+    
+    var obj = {
+      a: ['string', 5],
+      b: false
+    };
+    
+    expect(mm.match(obj, {
+      'o(.a:a(s(string), n(5)@n), .b:b(false))': function () { return this.n; }
+    })).toBe(5);    
+  });  
+});
+
 describe("Array pattern tests", function() {
   it("should recognize basic types", function() {          
     var m = mm.match;
