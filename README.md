@@ -2,7 +2,8 @@ MissMatch
 =========
 
 A pattern-matcher for JavaScript. It allows you to match any kind of JavaScript value against patterns, bind values to names and execute 
-handler functions, when a pattern matches.
+handler functions, when a pattern matches. For example, it can be used to match JSON input against patterns and execute the appropriate handler.
+Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
 
 Patterns are composed in a simple and concise syntax:
 -----------------------------------------------------
@@ -62,11 +63,19 @@ Patterns can contain literals:
     
   - s("a_str") denotes the string literal 'a_string'.
   
+  - b(true) denotes a boolean literal that only matches 'true' values.
+  
   You can specify a literal list. The pattern will match if one of the literal matches.
   
   - n(1,2,3) matches if one of the number 1, 2 or 3 occurs.
   
   - s("a", "b") matches if a string "a" or a string "b" occurs.
+  
+  Even lists of boolean literals are possible:
+  
+  - b(true, false)
+  
+  However this is exactly the same as just 'b'
     
     
 The rest of an array can also be matched (and bound):
@@ -77,6 +86,32 @@ The rest of an array can also be matched (and bound):
   - a(n,n,n|@r) matches the same array, but binds the rest (everything but the first three items) to the variable 'r'.  
 
 
+API
+===
+
+The API consists mainly of three functions:
+  
+  - **match** takes a value to match and a JavaScript Objekt containing the patterns and handlers. If one of the patterns matches, then
+    the result of it's handler is executed.
+    
+  - **matchJSON** is equivalent to match(JSON.parse(obj_to_match), {...})
+  
+  - **compile** compiles a single pattern (string) to a function. The function can be executed on some input value and will return an object
+    with the properties 'result' and 'context'. If the pattern matched the input, 'result' will be true and 'context' will be an object containing
+    all bindings.
+
+Installation
+============
+
+Browser
+-------
+
+Just reference MissMatch.js. The functions 'match', 'matchJSON' and 'compile' are all bound to an object with the name 'mm'.
+
+Node.js
+-------
+
+To be done.
 
 Version History:
 ----------------

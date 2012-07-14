@@ -110,6 +110,30 @@ describe("Literals test", function() {
       
     expect(thunk(mm.match, ["4", { 'n(1,2,"3",4,5)@n': "return this.n" }]))
       .toThrow('Unexpected token " where numeric was expected');
+      
+    expect(mm.match(true, { 'b(true)@n': "return this.n" }))
+      .toBe(true);
+      
+    expect(mm.match(false, { 'b(false)@n': "return this.n" }))
+      .toBe(false);
+      
+    expect(mm.match(false, { 'b(true,false)@n': "return this.n" }))
+      .toBe(false);
+      
+    expect(mm.match(true, { 'b( true, true,  true  )@n': "return this.n" }))
+      .toBe(true);
+              
+    expect(mm.match([true,false], { 'a(b(true)@a, b(false)@b)': "return this.a && this.b" }))
+      .toBe(false);
+    
+    expect(mm.match({x:{y: true}}, { 'o(.x:o(.y:b(true)@n))': "return this.n" }))
+      .toBe(true);
+                                        
+    expect(thunk(mm.match, [[false,true], { 'a(b(true)@a, b(false)@b)': "return this.a && this.b" }]))
+      .toThrow("Non-exhaustive patterns");        
+                                                        
+    expect(thunk(mm.match, [false, { 'b(true)@n': "return this.n" }]))
+      .toThrow("Non-exhaustive patterns");        
   });  
 });
 
@@ -137,6 +161,41 @@ describe("Array pattern tests", function() {
       .toBe(10);
     
     expect(m(a, { 'a(n(1,2,3)@a, n(3,2,1)@b|)': 'return this.a * this.b' }))
-      .toBe(2);        
+      .toBe(2);            
   });  
 });
+
+describe("Algorithmic tests", function() {
+  it("should work correct when called recursive", function() {
+    // Fibonacci
+    function fib (x) {
+      return mm.match(x, {
+        "n(0,1)@n": function () { return this.n; },
+        "n@n": function () { return fib(this.n-1)+fib(this.n-2); }
+      });
+    }
+    
+    expect(fib(12)).toBe(144);  
+    
+    // Array reduction
+    var arr = [{x:5,y:4},{x:3,y:7},{x:12,y:1},{x:3,y:13}];
+    
+    function square(l,res) {
+      return mm.match(l, {
+        "a(o(.x@x,.y@y)|@r)": function () { res.push(this.x*this.y); return square(this.r, res); },
+        "a(o(.x@x,.y@y))": function () { res.push(this.x*this.y); return res; }
+      });
+    }
+    
+    function sum(a) {
+      var sum = 0, index;
+      for (index=0;index<a.length;index++) {
+        sum = sum + a[index];
+      }
+      return sum;
+    }
+    
+    expect(sum(square(arr, []))).toBe(92);
+  });  
+});
+
