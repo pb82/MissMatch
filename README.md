@@ -1,9 +1,8 @@
 MissMatch
 =========
 
-A pattern-matcher for JavaScript. It allows you to match any kind of
-JavaScript value against patterns, bind values to names and execute
-handler functions, when a pattern matches  
+A pattern-matcher for JavaScript. It allows you to match any kind of JavaScript value against patterns, bind values to names and execute 
+handler functions, when a pattern matches.
 
 Patterns are composed in a simple and concise syntax:
 -----------------------------------------------------
@@ -60,10 +59,14 @@ Patterns can contain literals:
   Literals can be matched for strings, numbers and booleans. Literals may also be bound to names.
   
   - n(121.5) denotes the numeric literal 121.5.
+    
+  - s("a_str") denotes the string literal 'a_string'.
   
-  - b(true) denotes the boolean literal true.
+  You can specify a literal list. The pattern will match if one of the literal matches.
   
-  - s(a_string) denotes the string literal 'a_string'. Note that you don't have to quote the literal within the parentheses. Any quotation will be considered as a part of the string.
+  - n(1,2,3) matches if one of the number 1, 2 or 3 occurs.
+  
+  - s("a", "b") matches if a string "a" or a string "b" occurs.
     
     
 The rest of an array can also be matched (and bound):
