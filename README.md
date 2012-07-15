@@ -119,7 +119,8 @@ Just reference MissMatch.js. The functions 'match', 'matchJSON' and 'compile' ar
 Node.js
 -------
 
-To be done.
+  - npm install missmatch
+  - (optional) npm test missmatch
 
 Version History:
 ----------------
