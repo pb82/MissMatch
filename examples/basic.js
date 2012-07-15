@@ -15,8 +15,10 @@ function match(x) {
         + this.b
     },
     
-    'n(1,2,3)': function () {
-      return "The argument was a number, either 1, 2 or 3."
+    'n(1,2,3)@actual': function () {
+      return "The argument was a number, either 1, 2 or 3. (actually "
+        + this.actual
+        + ")";
     },
     
     'a': function () {
