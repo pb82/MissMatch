@@ -13,7 +13,13 @@ describe("Basic tests (module integrity)", function() {
       .toBe('function');
       
     expect(typeof mm.compile)
-      .toBe('function');            
+      .toBe('function');     
+      
+    expect(mm.match(mm, {
+      'o(.match:f@m, .matchJSON:f, .compile:f)': function () {
+        return typeof this.m === 'function';
+      }
+    })).toBe(true);
   });  
 });
 

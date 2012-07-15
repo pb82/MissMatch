@@ -5,12 +5,10 @@
 
 var mm = require('missmatch');
 
-var validationPattern = 'o(.match:f, .matchJSON:f, compile:f)';
-
 console.log('MissMatch is installed: ' + typeof mm === typeof {});
 
 mm.match(mm, {
-  'o(.match:f@m, .matchJSON:f, compile:f)': function () {
+  'o(.match:f@m, .matchJSON:f, .compile:f)': function () {
     console.log('MissMatch functions available: ', typeof m === 'function');
   }
 });

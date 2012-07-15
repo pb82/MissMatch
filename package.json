@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "description": "Easy-to-use pattern matching for JavaScript",
   "author": "Peter Braun <peter-braun@gmx.net>",
+  "scripts": {
+    "test": "node ./scripts/test.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/pb82/MissMatch.git"
