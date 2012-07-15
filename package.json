@@ -1,5 +1,5 @@
 {
-  "name": "missmatch",
+  "name": "MissMatch",
   "main": "./lib/MissMatch.js",
   "version": "0.0.1",
   "description": "Easy-to-use pattern matching for JavaScript",
