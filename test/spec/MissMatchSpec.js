@@ -324,3 +324,22 @@ describe("Algorithmic tests", function() {
   });  
 });
 
+describe("JSON tests", function() {
+  it("should be able to match JSON input", function() {
+        
+    expect(mm.matchJSON('{"x": 1, "y": 2}', {
+      'o(.x@x, .y@y)': function () {
+        return this.x * this.y;
+      }
+    })).toBe(2);
+    
+    
+    expect(mm.matchJSON('{"x": [4,5], "y": {"z": "json" } }', {
+      'o(.x@a, .y:o(.z:s("json")@s))': function () {
+        return this.s === "json";
+      }
+    })).toBe(true);
+
+  });  
+});
+
