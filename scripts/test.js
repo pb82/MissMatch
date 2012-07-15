@@ -14,7 +14,7 @@ mm.match(mm, {
   }
 });
 
-mm.match([1,2,3] {
+mm.match([1,2,3], {
   'a(_|@r)': function () {
     var success = 
       this.r[0] * this.r[1] === 6
