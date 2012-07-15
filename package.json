@@ -7,10 +7,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/pb82/MissMatch.git"
-  },
-  "keywords": [
-    "pattern",
-    "match"
-  ],
-  "license": "MIT"
+  }
 }
