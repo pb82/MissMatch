@@ -218,7 +218,14 @@ describe("Array pattern tests", function() {
     
     expect(m(a, { 
       'a(n(1,2,3)@a, n(3,2,1)@b|)': 'return this.a * this.b' 
-    })).toBe(2);            
+    })).toBe(2); 
+
+    expect(m([1,2,3], {    
+      'a(_|@r)': function () {
+         return this.r[0] * this.r[1];
+      }
+    })).toBe(6);
+           
   });  
 });
 

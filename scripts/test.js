@@ -12,13 +12,3 @@ mm.match(mm, {
     console.log('MissMatch functions available: ', typeof m === 'function');
   }
 });
-
-mm.match([1,2,3], {
-  'a(_|@r)': function () {
-    if(this.r[0] * this.r[1] === 6) {
-      console.log('Basic pattern test: works');
-    } else {
-      throw "Basic pattern test failed.";
-    }
-  }
-});
