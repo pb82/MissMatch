@@ -343,3 +343,14 @@ describe("JSON tests", function() {
   });  
 });
 
+describe("compile tests", function() {
+  it("should be able to compile patterns to a function", function() {
+        
+    var fun = mm.compile('a(_,n,s|)');
+    var fail      = fun([1,2,3,4,5]).result;
+    var success   = fun([1,2,'a','b','c']).result;
+
+    expect(!fail && success).toBe(true);
+  });  
+});
+
