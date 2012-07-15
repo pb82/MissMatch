@@ -5,10 +5,10 @@
 
 var mm = require('missmatch');
 
-console.log('MissMatch is installed: ' + typeof mm === typeof {});
+console.log('MissMatch is installed: ', typeof mm === typeof {});
 
 mm.match(mm, {
   'o(.match:f@m, .matchJSON:f, .compile:f)': function () {
-    console.log('MissMatch functions available: ', typeof m === 'function');
+    console.log('MissMatch functions available: ', typeof this.m === 'function');
   }
 });
