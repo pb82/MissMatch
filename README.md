@@ -1,8 +1,9 @@
 MissMatch
 =========
 
-A pattern-matcher for JavaScript. It allows you to match any kind of JavaScript value against patterns, bind values to names and execute 
-handler functions, when a pattern matches. For example, it can be used to match JSON input against patterns and execute the appropriate handler.
+A pattern-matcher for JavaScript. It allows you to match any kind of JavaScript value (including arrays and objects) against patterns, bind values to names and execute 
+handler functions, when a pattern matches. In general this is useful in cases where you receive some value but can't be sure how it is exactly composed. It might be
+some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested to variables.
 Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
 
 Patterns are composed in a simple and concise syntax:
@@ -18,8 +19,8 @@ Patterns are composed in a simple and concise syntax:
   - '_' means wildcard (match anything)
 
 
-Patterns can of course be nested:
----------------------------------
+Patterns can be arbitrarily nested:
+-----------------------------------
 
   - a(n, n) matches an array with exactly two numbers(e.g. [1,2]).  
   
@@ -30,7 +31,7 @@ Patterns can of course be nested:
 
 
 Patterns can also be bound to variables:
---------------------------------- 
+----------------------------------------
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers where the first one is bound to the variable 'x' and the second one
     to 'y'. This can be used in the handler function for a pattern:  
@@ -65,17 +66,18 @@ Patterns can contain literals:
   
   - b(true) denotes a boolean literal that only matches 'true' values.
   
-  You can specify a literal list. The pattern will match if one of the literal matches.
+  
+  ###You can specify a literal list. The pattern will match if one of the literal matches.
   
   - n(1,2,3) matches if one of the number 1, 2 or 3 occurs.
   
   - s("a", "b") matches if a string "a" or a string "b" occurs.
   
-  Even lists of boolean literals are possible:
+  ###Even lists of boolean literals are possible:
   
   - b(true, false)
   
-  However this is exactly the same as just 'b'
+  However this equivalent to just writing 'b'.
     
     
 The rest of an array can also be matched (and bound):
@@ -83,7 +85,10 @@ The rest of an array can also be matched (and bound):
 
   - a(n,n,n|) matches an array that is required to contain at least three numeric values, but may also contain more.  
     
-  - a(n,n,n|@r) matches the same array, but binds the rest (everything but the first three items) to the variable 'r'.  
+  - a(n,n,n|@r) matches the same array, but binds the rest (everything but the first three items) to the variable 'r'.
+  
+Note that the rest of an array (if there is a rest left to be matched) will always be an array itself even if there is only one item left
+to match the rest to.
 
 
 API
@@ -99,6 +104,7 @@ The API consists mainly of three functions:
   - **compile** compiles a single pattern (string) to a function. The function can be executed on some input value and will return an object
     with the properties 'result' and 'context'. If the pattern matched the input, 'result' will be true and 'context' will be an object containing
     all bindings.
+
 
 Installation
 ============
@@ -116,4 +122,4 @@ To be done.
 Version History:
 ----------------
 
-  - 0.1: Initial Release.  
+  - 0.0.1: Initial Release.  
