@@ -40,4 +40,5 @@ function match(x) {
 console.log(match([]));
 console.log(match(12));
 console.log(match([4,2]));
+console.log(match(2));
 console.log(match({inner: {x: "hello pattern matching!"}}));
