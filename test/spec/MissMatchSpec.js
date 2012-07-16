@@ -83,11 +83,11 @@ describe("Literals test", function() {
             
     expect(thunk(mm.match, ["a_str", { 
       's("b_str", 1)@n': "return this.n" 
-    }])).toThrow("Unexpected token 1 where string literal was expected");        
+    }])).toThrow("Unexpected token 1 where string was expected");        
       
     expect(thunk(mm.match, ["a_str", { 
       's("b_str", true)@n': "return this.n" 
-    }])).toThrow("Unexpected token t where string literal was expected");        
+    }])).toThrow("Unexpected token t where string was expected");        
     
     expect(mm.match("hello", { 
       's("hello", "world")@n': "return this.n + ' world'" 
@@ -184,6 +184,18 @@ describe("Literals test", function() {
     expect(thunk(mm.match, [false, { 
       'b(true)@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");        
+    
+    expect(thunk(mm.match, [1, { 
+      'n(,)@n': "return this.n" 
+    }])).toThrow("Unexpected token , where numeric was expected");        
+
+    expect(thunk(mm.match, [false, { 
+      'b(,)@n': "return this.n" 
+    }])).toThrow("Unexpected token , where boolean was expected");        
+
+    expect(thunk(mm.match, ["b", { 
+      's(,)@n': "return this.n" 
+    }])).toThrow("Unexpected token , where string was expected");        
   });  
 });
 
