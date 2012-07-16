@@ -44,7 +44,7 @@ mm.match(candidate, {
 
 ```
 
-##Note that you bound variables must always be accessed using 'this'.
+###Note that you bound variables must always be accessed using 'this'.
     
 Object patterns can have type specifiers:
 -----------------------------------------

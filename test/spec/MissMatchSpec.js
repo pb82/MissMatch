@@ -225,7 +225,17 @@ describe("Array pattern tests", function() {
          return this.r[0] * this.r[1];
       }
     })).toBe(6);
-           
+
+    expect(m([[[[5]]]], {    
+      'a(a(a(a(n@x))))': function () {
+         return this.x;
+      }
+    })).toBe(5);
+          
+    expect(thunk(m, [[], { 
+      'a(,)': 'return true' 
+    }])).toThrow("Unexpected token at 2 : ,");
+    
   });  
 });
 
@@ -276,6 +286,14 @@ describe("Object pattern tests", function() {
       "o(.prop_c:o(.coord_b:o(.y@y, .x@x)))": 
         function () { return this.y * this.x; }
     })).toBe(135);    
+    
+    expect(thunk(mm.match, [{}, { 
+      'o(,)': function () { return 1; } 
+    }])).toThrow("Unexpected token , where . was expected");
+    
+    expect(thunk(mm.match, [{}, { 
+      'o()': function () { return 1; } 
+    }])).toThrow("Unexpected token ) where . was expected");
   });  
 });
 
