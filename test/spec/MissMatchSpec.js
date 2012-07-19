@@ -25,6 +25,15 @@ describe("Basic tests (module integrity)", function() {
 
 describe("Simple pattern tests", function() {
   it("should recognize basic types", function() {          
+    
+    expect(typeof mm.compile("a")).toBe('function');
+    expect(typeof mm.compile("o")).toBe('function');
+    expect(typeof mm.compile("n")).toBe('function');
+    expect(typeof mm.compile("s")).toBe('function');
+    expect(typeof mm.compile("f")).toBe('function');
+    expect(typeof mm.compile("b")).toBe('function');
+    expect(typeof mm.compile("_")).toBe('function');
+
     expect(mm.match(1, { 
       'n@n': "return this.n" 
     })).toBe(1);
@@ -47,15 +56,15 @@ describe("Parser tests", function() {
   it("should correctly parse expressions", function() {          
     expect(thunk(mm.match, [false, { 
       'x': "return this.n" 
-    }])).toThrow("Unexpected token at 0 : x");
+    }])).toThrow("Unexpected token at index 0 expected '(a,o,n,s,b,f,_)' but found x");
       
     expect(thunk(mm.match, [false, { 
       'a(n,n': "return this.n" 
-    }])).toThrow("Unexpected token at index 6 expected: ')'");
+    }])).toThrow("Unexpected token at index 5 expected ')' but found ''");
       
     expect(thunk(mm.match, [false, { 
       'a n)': "return this.n" 
-    }])).toThrow("Expected end of input but tokens found: 2");
+    }])).toThrow("Expected end of input but tokens found: n)");
   });  
 });
 
@@ -83,11 +92,11 @@ describe("Literals test", function() {
             
     expect(thunk(mm.match, ["a_str", { 
       's("b_str", 1)@n': "return this.n" 
-    }])).toThrow("Unexpected token 1 where string was expected");        
+    }])).toThrow("Unexpected token at index 12 expected 'string' but found 1");      
       
     expect(thunk(mm.match, ["a_str", { 
       's("b_str", true)@n': "return this.n" 
-    }])).toThrow("Unexpected token t where string was expected");        
+    }])).toThrow("Unexpected token at index 12 expected 'string' but found t");        
     
     expect(mm.match("hello", { 
       's("hello", "world")@n': "return this.n + ' world'" 
@@ -151,7 +160,7 @@ describe("Literals test", function() {
       
     expect(thunk(mm.match, ["4", {
       'n(1,2,"3",4,5)@n': "return this.n" 
-    }])).toThrow('Unexpected token " where numeric was expected');
+    }])).toThrow("Unexpected token at index 6 expected 'numeric' but found \"");
       
     expect(mm.match(true, { 
       'b(true)@n': "return this.n" 
@@ -187,15 +196,15 @@ describe("Literals test", function() {
     
     expect(thunk(mm.match, [1, { 
       'n(,)@n': "return this.n" 
-    }])).toThrow("Unexpected token , where numeric was expected");        
+    }])).toThrow("Unexpected token at index 2 expected 'numeric' but found ,");        
 
     expect(thunk(mm.match, [false, { 
       'b(,)@n': "return this.n" 
-    }])).toThrow("Unexpected token , where boolean was expected");        
+    }])).toThrow("Unexpected token at index 2 expected 'boolean' but found ,");        
 
     expect(thunk(mm.match, ["b", { 
       's(,)@n': "return this.n" 
-    }])).toThrow("Unexpected token , where string was expected");        
+    }])).toThrow("Unexpected token at index 3 expected 'string' but found ,");        
   });  
 });
 
@@ -246,7 +255,7 @@ describe("Array pattern tests", function() {
           
     expect(thunk(m, [[], { 
       'a(,)': 'return true' 
-    }])).toThrow("Unexpected token at 2 : ,");
+    }])).toThrow("Unexpected token at index 2 expected '(a,o,n,s,b,f,_)' but found ,");
     
   });  
 });
@@ -299,13 +308,20 @@ describe("Object pattern tests", function() {
         function () { return this.y * this.x; }
     })).toBe(135);    
     
+    // TODO: Find out why this test fails when the actual exception
+    // is asserted.
+    expect(thunk(mm.match, [{}, { 
+      'o(.x': function () { return 1; }
+    }])).toThrow();
+    
     expect(thunk(mm.match, [{}, { 
       'o(,)': function () { return 1; } 
-    }])).toThrow("Unexpected token , where . was expected");
+    }])).toThrow("Unexpected token at index 2 expected '.' but found ,");
     
     expect(thunk(mm.match, [{}, { 
       'o()': function () { return 1; } 
-    }])).toThrow("Unexpected token ) where . was expected");
+    }])).toThrow("Unexpected token at index 2 expected '.' but found )");
+
   });  
 });
 
@@ -384,3 +400,18 @@ describe("compile tests", function() {
   });  
 });
 
+describe("variable and property naming test", function() {
+  it("should only accept correct variable names", function() {
+    
+    expect(typeof mm.compile("o@s")).toBe('function');          
+    expect(typeof mm.compile("o@__s")).toBe('function');
+    expect(typeof mm.compile("o@_s_")).toBe('function');
+    expect(typeof mm.compile("o@$$s")).toBe('function');
+    expect(typeof mm.compile("o@$s$")).toBe('function'); 
+    expect(typeof mm.compile("o@$11")).toBe('function');
+    expect(typeof mm.compile("o@a01")).toBe('function');
+    expect(typeof mm.compile("o@_0_")).toBe('function');  
+    expect(thunk(mm.compile, ['a@1__s'])).toThrow();
+    expect(thunk(mm.compile, ['o(.x:n@1)'])).toThrow();
+  });  
+});
