@@ -157,7 +157,11 @@ describe("Literals test", function() {
     expect(thunk(mm.match, [1.49999, { 
       'n(1.49998)@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");        
-      
+    
+    expect(thunk(mm.match, [1.49999, { 
+      'n(2e.3)@n': "return this.n" 
+    }])).toThrow("Non-exhaustive patterns");        
+        
     expect(thunk(mm.match, ["4", {
       'n(1,2,"3",4,5)@n': "return this.n" 
     }])).toThrow("Unexpected token at index 6 expected 'numeric' but found \"");
@@ -278,6 +282,20 @@ describe("Object pattern tests", function() {
       }
     };
     
+    function Construct() {
+      this.name = "name";
+      this.size = 4;
+    }
+    
+    Construct.prototype.hidden = "hidden";
+    Construct.prototype.hiddenObj = {
+      fun: function () {
+        return 42;
+      }
+    }
+    
+    var obj2 = new Construct(); 
+    
     expect(mm.match(obj, {
       "o(.an_array:a(n@v|))": function () { return this.v; }
     })).toBe(3);    
@@ -307,12 +325,39 @@ describe("Object pattern tests", function() {
       "o(.prop_c:o(.coord_b:o(.y@y, .x@x)))": 
         function () { return this.y * this.x; }
     })).toBe(135);    
-    
-    // TODO: Find out why this test fails when the actual exception
-    // is asserted.
+        
+    expect(mm.match(obj2, {
+      "o(.name:s@s)": 
+        function () { return this.s; }
+    })).toBe("name");
+        
+    expect(mm.match(obj2, {
+      "o(.name@s)": 
+        function () { return this.s; }
+    })).toBe("name");
+
+    expect(mm.match(obj2, {
+      "o(:hidden@s)": 
+        function () { return this.s; }
+    })).toBe("hidden");
+
+    expect(mm.match(obj2, {
+      "o(:name:s@s)": 
+        function () { return this.s; }
+    })).toBe("name");
+
+    expect(mm.match(obj2, {
+      "o(:hiddenObj:o(.fun:f@f))": 
+        function () { return this.f(); }
+    })).toBe(42);
+
+    expect(thunk(mm.match, [obj2, { 
+      'o(.hidden@h)': function () { return this.h; }
+    }])).toThrow("Non-exhaustive patterns");
+
     expect(thunk(mm.match, [{}, { 
       'o(.x': function () { return 1; }
-    }])).toThrow();
+    }])).toThrow("Unexpected token at index 4 expected ')' but found ''");    
     
     expect(thunk(mm.match, [{}, { 
       'o(,)': function () { return 1; } 
@@ -320,8 +365,7 @@ describe("Object pattern tests", function() {
     
     expect(thunk(mm.match, [{}, { 
       'o()': function () { return 1; } 
-    }])).toThrow("Unexpected token at index 2 expected '.' but found )");
-
+    }])).toThrow("Unexpected token at index 2 expected '.' but found )");    
   });  
 });
 

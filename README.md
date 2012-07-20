@@ -6,8 +6,8 @@ handler functions, when a pattern matches. In general this is useful in cases wh
 some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested to variables.
 Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
 
-Patterns are composed in a simple and concise syntax:
------------------------------------------------------
+Patterns are composed in a simple and concise syntax
+----------------------------------------------------
 
   - 'a' means array
   - 'o' means object
@@ -19,8 +19,8 @@ Patterns are composed in a simple and concise syntax:
   - '_' means wildcard (match anything)
 
 
-Patterns can be arbitrarily nested:
------------------------------------
+Patterns can be arbitrarily nested
+----------------------------------
 
   - a(n, n) matches an array with exactly two numbers(e.g. [1,2]).  
   
@@ -30,8 +30,8 @@ Patterns can be arbitrarily nested:
     the two properties 'x' and 'y'.  
 
 
-Patterns can also be bound to variables:
-----------------------------------------
+Patterns can also be bound to variables
+---------------------------------------
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers where the first one is bound to the variable 'x' and the second one
     to 'y'. This can be used in the handler function for a pattern:  
@@ -44,10 +44,18 @@ mm.match(candidate, {
 
 ```
 
-###Note that bound variables must always be accessed using 'this'.
+####Note that bound variables must always be accessed using 'this'.
+
+Objects can be matched
+----------------------
+
+  - o(.x) matches an object that is required to have a property namend 'x' which must belong to the object itself and must not be a part
+    of the prototype chain.
     
-Object patterns can have type specifiers:
------------------------------------------
+  - o(:x) matches an object that is required to have a property named 'x' which may also be part of the protptype chain.
+
+Object patterns can have type specifiers
+----------------------------------------
 
   - o(.x:n) matches an object with at least a property 'x' which is required to be a number. You can also bind the number value:  
     
@@ -57,8 +65,8 @@ Object patterns can have type specifiers:
     (at least) the properties 'x' and 'y'. They are then bound to variables and can be used in the handler function.  
     
 
-Patterns can contain literals:
-------------------------------
+Patterns can contain literals
+-----------------------------
 
   Literals can be matched for strings, numbers and booleans. Literals may also be bound to names.
   
@@ -82,8 +90,8 @@ Patterns can contain literals:
   However this equivalent to just writing 'b'.
     
     
-The rest of an array can also be matched (and bound):
------------------------------------------------------
+The rest of an array can also be matched (and bound)
+----------------------------------------------------
 
   - a(n,n,n|) matches an array that is required to contain at least three numeric values, but may also contain more.  
     
@@ -96,7 +104,7 @@ to match the rest to.
 API
 ===
 
-The API consists mainly of three functions:
+The API consists of three functions:
   
   - **match** takes a value to match and a JavaScript Objekt containing the patterns and handlers. If one of the patterns matches, then
     the result of it's handler is executed.
