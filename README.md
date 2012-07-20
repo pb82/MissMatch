@@ -53,6 +53,9 @@ Objects can be matched
     of the prototype chain.
     
   - o(:x) matches an object that is required to have a property named 'x' which may also be part of the protptype chain.
+  
+  - o(:x, .y) matches an object that is required to have (at least) two properties 'x' and 'y'. 'y' is required to belong to the object itself
+    while 'x' may be part of the prototype cain.
 
 Object patterns can have type specifiers
 ----------------------------------------
@@ -133,4 +136,10 @@ Node.js
 Version History:
 ----------------
 
+  - 0.0.2: 
+    * Can match properties in the prototype chain (with ':' instead of '.').
+    * Better support for valid variable and property names ($,_ and numbers allowed).
+    * Will throw an exception if a name is bound multiple times. In 0.0.1 The value was silently overwritten.
+    * Improved parser error messages.
+    
   - 0.0.1: Initial Release.  

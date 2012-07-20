@@ -351,6 +351,17 @@ describe("Object pattern tests", function() {
         function () { return this.f(); }
     })).toBe(42);
 
+    expect(mm.match(obj2, {
+      "o(.size@n, :hidden@h)": 
+        function () { return this.h + this.n; }
+    })).toBe("hidden4");
+    
+    expect(mm.match(obj2, {
+      "o(.size@n, :b@h)": function () { return this.h + this.n; },
+      "o(.c@n, :hidden@h)": function () { return this.h + this.n; },     
+      "o(.size@n, :hidden@h)": function () { return this.h + this.n; }
+    })).toBe("hidden4");
+
     expect(thunk(mm.match, [obj2, { 
       'o(.hidden@h)': function () { return this.h; }
     }])).toThrow("Non-exhaustive patterns");
@@ -368,7 +379,6 @@ describe("Object pattern tests", function() {
     }])).toThrow("Unexpected token at index 2 expected '.' but found )");    
   });  
 });
-
 
 describe("Algorithmic tests", function() {
   it("should work correct when called recursively", function() {
