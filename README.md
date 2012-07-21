@@ -40,7 +40,7 @@ Patterns can also be bound to variables
 mm.match(candidate, {   
 'a(n@x, n@y)': function () { return this.x * this.y; },
 '_': function () { /* Match all */ }
-});  
+});
 
 ```
 
@@ -60,7 +60,7 @@ Objects can be matched
 Object patterns can have type specifiers
 ----------------------------------------
 
-  - o(.x:n) matches an object with at least a property 'x' which is required to be a number. You can also bind the number value:  
+  - o(.x:n) matches an object with at least a property 'x' which is required to be a number. You can also bind the number's value:  
     
       * o(.x:n@x)  
       
@@ -82,9 +82,11 @@ Patterns can contain literals
   
   ###You can specify a literal list. The pattern will match if one of the literal matches.
   
-  - n(1,2,3) matches if one of the number 1, 2 or 3 occurs.
+  - n(1,2,3) matches if one of the numbers 1, 2 or 3 occurs.
   
   - s("a", "b") matches if a string "a" or a string "b" occurs.
+  
+  - n(1,2,3)@x matches if one of the numbers 1, 2 or 3 occurs and binds the actual value to the variable 'x'.
   
   ###Even lists of boolean literals are possible:
   
@@ -104,15 +106,39 @@ Note that the rest of an array (if there is a rest left to be matched) will alwa
 to match the rest to.
 
 
+Function arguments can be easily matched (0.0.3 feature, not available in stable yet)
+-------------------------------------------------------------------------------------
+
+You can match against the calling function's arguments without passing the arguments object. It's a nice way to write dispatching or generic functions.
+
+```  js
+function plus() {
+  mm.matchArgs({
+    // Function arguments are treated like arrays.
+    // If we pass in two numbers, we ADD them:
+    'a(n@a,n@b)': function () { return this.a + this.b; },
+    
+    // If we pass in two booleans we AND them:
+    'a(b@a,b@b)': function () { return this.a && this.b; }    
+  });
+}
+
+plus(2,4);          // 6 
+plus(true, false);  // false
+```
+
 API
 ===
 
 The API consists of three functions:
   
-  - **match** takes a value to match and a JavaScript Objekt containing the patterns and handlers. If one of the patterns matches, then
-    the result of it's handler is executed.
+  - **match** takes a value to match and a JavaScript Object containing the patterns and handlers. If one of the patterns matches, then
+    it's handler function is executed.
     
   - **matchJSON** is equivalent to match(JSON.parse(obj_to_match), {...})
+  
+  - **matchArgs** lets you match against the calling function's arguments. You don't have to pass the arguments object, only the patterns.
+    Function arguments are matched like arrays.
   
   - **compile** compiles a single pattern (string) to a function. The function can be executed on some input value and will return an object
     with the properties 'result' and 'context'. If the pattern matched the input, 'result' will be true and 'context' will be an object containing
@@ -133,13 +159,13 @@ Node.js
   - npm install missmatch
   - (optional) npm test missmatch
 
-Version History:
-----------------
+Version History
+---------------
 
   - 0.0.2: 
     * Can match properties in the prototype chain (with ':' instead of '.').
-    * Better support for valid variable and property names ($,_ and numbers allowed).
-    * Will throw an exception if a name is bound multiple times. In 0.0.1 The value was silently overwritten.
+    * Better support for valid variable and property names ($, _ and numbers allowed).
+    * Will throw an exception if the same name is bound multiple times. In 0.0.1 The value was silently overwritten.
     * Improved parser error messages.
     
   - 0.0.1: Initial Release.  

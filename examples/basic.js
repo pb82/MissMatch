@@ -30,7 +30,7 @@ function match(x) {
     },
     
     'o(.inner:o(.x:s@x))': function () {
-      return "This argument was an object, containing a property"
+      return "This argument was an object, containing a property "
       + "'inner' which also is an object. 'inner' contains the property"   
       + "'x' which is required to be a string and has the value: " + this.x;
     }
