@@ -16,10 +16,10 @@ function fib (x) {
     },
     
     // For all other numbers call fib recursively
-    'n@n': function () {
+    '_@n': function () {
       return fib(this.n-1) + fib(this.n-2);
     }
   });
 }
 
-console.log("Fibonacci value of 12 is: " + fib(12));
+console.log("Fibonacci value of 14 is: " + fib(14));

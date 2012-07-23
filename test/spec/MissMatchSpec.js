@@ -257,6 +257,30 @@ describe("Array pattern tests", function() {
       }
     })).toBe(5);
           
+    expect(m([], { 
+      'a()': 'return true' 
+    })).toBe(true);   
+    
+    expect(m([1,2], { 
+      'a()': 'return true',
+      '_': 'return false'
+    })).toBe(false);
+    
+    expect(m([1], { 
+      'a()': 'return true',
+      '_': 'return false'
+    })).toBe(false);
+     
+    expect(m([], { 
+      'a(n)': 'return true',
+      '_': 'return false'
+    })).toBe(false);
+
+    expect(m([], { 
+      'a()@n': 'this.n.push(1); return this.n.length;' 
+    })).toBe(1);
+
+         
     expect(thunk(m, [[], { 
       'a(,)': 'return true' 
     }])).toThrow("Unexpected token at index 2 expected '(a,o,n,s,b,f,_)' but found ,");

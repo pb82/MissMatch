@@ -34,7 +34,7 @@ Patterns can also be bound to variables
 ---------------------------------------
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers where the first one is bound to the variable 'x' and the second one
-    to 'y'. This can be used in the handler function for a pattern:  
+    to 'y'. This can be used in the handler function of a pattern:  
     
 ```  js
 mm.match(candidate, {   
@@ -52,7 +52,7 @@ Objects can be matched
   - o(.x) matches an object that is required to have a property namend 'x' which must belong to the object itself and must not be a part
     of the prototype chain.
     
-  - o(:x) matches an object that is required to have a property named 'x' which may also be part of the protptype chain.
+  - o(:x) matches an object that is required to have a property named 'x' which may also be part of the prototype chain.
   
   - o(:x, .y) matches an object that is required to have (at least) two properties 'x' and 'y'. 'y' is required to belong to the object itself
     while 'x' may be part of the prototype cain.
