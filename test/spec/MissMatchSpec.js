@@ -56,7 +56,7 @@ describe("Parser tests", function() {
   it("should correctly parse expressions", function() {          
     expect(thunk(mm.match, [false, { 
       'x': "return this.n" 
-    }])).toThrow("Unexpected token at index 0 expected '(a,o,n,s,b,f,_)' but found x");
+    }])).toThrow("Unexpected token at index 0 expected '(a,o,n,s,b,f,d,_)' but found x");
       
     expect(thunk(mm.match, [false, { 
       'a(n,n': "return this.n" 
@@ -209,6 +209,42 @@ describe("Literals test", function() {
     expect(thunk(mm.match, ["b", { 
       's(,)@n': "return this.n" 
     }])).toThrow("Unexpected token at index 3 expected 'string' but found ,");        
+    
+    expect(mm.match(new Date(), { 
+      'd': function () {return true;}
+    })).toBe(true);
+    
+    expect(mm.match(new Date("2012"), { 
+      'd("2012", "2013")': function () {return true;}
+    })).toBe(true);
+    
+    expect(mm.match(new Date("2012"), { 
+      'd("2012")': function () {return "2012";},
+      'd("2013")': function () {return "2013";}      
+    })).toBe("2012");
+    
+    expect(mm.match(new Date("2013"), { 
+      'd("2012")@n': function () {return this.n.getFullYear();},
+      'd("2013")@n': function () {return this.n.getFullYear();}      
+    })).toBe(2013);
+
+    expect(mm.match(new Date("2012"), { 
+      'd("2012", "2013")@d': function () {return this.d.getFullYear();}
+    })).toBe(2012);
+
+    expect(mm.match(new Date("2013"), { 
+      'd("2012", "2013")@d': function () {return this.d.getFullYear();}
+    })).toBe(2013);
+
+    expect(mm.match(new Date("2012/2/28"), { 
+      'd("2012/2/28")@d': function () {return this.d.getFullYear();}
+    })).toBe(2012);
+
+    expect(thunk(mm.match, [new Date("2013"), { 
+      'd("2011", "2012")@n': "return this.n" 
+    }])).toThrow("Non-exhaustive patterns");        
+
+
   });  
 });
 
@@ -257,6 +293,16 @@ describe("Array pattern tests", function() {
       }
     })).toBe(5);
           
+    expect(m([1,2,3], { 
+      'a(n(1,2),n(1,2),n(1,2))': 'return true',
+      '_': 'return false'
+    })).toBe(false);   
+
+    expect(m([1,2,2], { 
+      'a(n(1,2),n(1,2),n(1,2))': 'return true',
+      '_': 'return false'
+    })).toBe(true);   
+
     expect(m([], { 
       'a()': 'return true' 
     })).toBe(true);   
@@ -283,7 +329,7 @@ describe("Array pattern tests", function() {
          
     expect(thunk(m, [[], { 
       'a(,)': 'return true' 
-    }])).toThrow("Unexpected token at index 2 expected '(a,o,n,s,b,f,_)' but found ,");
+    }])).toThrow("Unexpected token at index 2 expected '(a,o,n,s,b,f,d,_)' but found ,");
     
   });  
 });

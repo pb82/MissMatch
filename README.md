@@ -15,6 +15,7 @@ Patterns are composed in a simple and concise syntax
   - 's' means string
   - 'b' means boolean
   - 'f' means function
+  - 'd' means date
   - '|' means the rest of a list
   - '_' means wildcard (match anything)
 
@@ -75,10 +76,11 @@ Patterns can contain literals
   
   - n(121.5) denotes the numeric literal 121.5.
     
-  - s("a_str") denotes the string literal 'a_string'.
+  - s("a_str") denotes the string literal 'a_str'.
   
   - b(true) denotes a boolean literal that only matches 'true' values.
   
+  - d("2012/2/28") denotes the date literal '2012/2/28'. Every valid JavaScript date string is accepted in the pattern. Time information may also be specified: d("2012/03/01 02:03:45")
   
   ###You can specify a literal list. The pattern will match if one of the literal matches.
   
@@ -87,6 +89,8 @@ Patterns can contain literals
   - s("a", "b") matches if a string "a" or a string "b" occurs.
   
   - n(1,2,3)@x matches if one of the numbers 1, 2 or 3 occurs and binds the actual value to the variable 'x'.
+  
+  - d("2012/2/28", "2012/3/01") matches if one of the specified dates occur.
   
   ###Even lists of boolean literals are possible:
   
