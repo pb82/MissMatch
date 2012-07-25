@@ -110,8 +110,8 @@ Note that the rest of an array (if there is a rest left to be matched) will alwa
 to match the rest to.
 
 
-Function arguments can be easily matched (0.0.3 feature, not available in stable yet)
--------------------------------------------------------------------------------------
+Function arguments can be easily matched
+----------------------------------------
 
 You can match against the calling function's arguments without passing the arguments object. It's a nice way to write dispatching or generic functions.
 
@@ -165,6 +165,12 @@ Node.js
 
 Version History
 ---------------
+
+  - 0.0.3:
+    * improved performance.
+    * can match function arguments nicely (matchArgs).
+    * can match date values.
+    * version string added (mm.version).
 
   - 0.0.2: 
     * Can match properties in the prototype chain (with ':' instead of '.').

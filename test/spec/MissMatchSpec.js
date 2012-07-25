@@ -239,12 +239,18 @@ describe("Literals test", function() {
     expect(mm.match(new Date("2012/2/28"), { 
       'd("2012/2/28")@d': function () {return this.d.getFullYear();}
     })).toBe(2012);
+    
+    expect(mm.match(new Date(), { 
+      'o': function () {return true;}
+    })).toBe(true);
+    
+    expect(mm.match([new Date(), new Date("2011")], { 
+      'a(d@d,d)': function () {return this.d.getFullYear();}
+    })).toBe(new Date().getFullYear());
 
     expect(thunk(mm.match, [new Date("2013"), { 
       'd("2011", "2012")@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");        
-
-
   });  
 });
 
@@ -325,8 +331,23 @@ describe("Array pattern tests", function() {
     expect(m([], { 
       'a()@n': 'this.n.push(1); return this.n.length;' 
     })).toBe(1);
-
          
+    expect(m([2,3,4], { 
+      'a(|@n)': 'return this.n[1];' 
+    })).toBe(3);
+    
+    expect(m([2,3,4], { 
+      'a(|)': 'return true;' 
+    })).toBe(true);
+    
+    expect(m([2,3,4], { 
+      'a(|)@a': 'return this.a.length;' 
+    })).toBe(3);
+    
+    expect(m({x: [[1,2],[3,4,5]]}, { 
+      'o(:x:a(a(|)@a,a(n,n@b,|)))': 'return this.a.length * this.b;' 
+    })).toBe(8);
+
     expect(thunk(m, [[], { 
       'a(,)': 'return true' 
     }])).toThrow("Unexpected token at index 2 expected '(a,o,n,s,b,f,d,_)' but found ,");
@@ -425,6 +446,26 @@ describe("Object pattern tests", function() {
       "o(.size@n, :hidden@h)": 
         function () { return this.h + this.n; }
     })).toBe("hidden4");
+    
+    expect(mm.match("string", { 
+      'o': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(false);
+
+    expect(mm.match(3, { 
+      'o': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(false);
+
+    expect(mm.match(false, { 
+      'o': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(false);
+    
+    expect(mm.match(function() {return 1;}, { 
+      'o': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(false);
     
     expect(mm.match(obj2, {
       "o(.size@n, :b@h)": function () { return this.h + this.n; },
