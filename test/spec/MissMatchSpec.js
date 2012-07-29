@@ -56,7 +56,7 @@ describe("Parser tests", function() {
   it("should correctly parse expressions", function() {          
     expect(thunk(mm.match, [false, { 
       'x': "return this.n" 
-    }])).toThrow("Unexpected token at index 0 expected '(a,o,n,s,b,f,d,_)' but found x");
+    }])).toThrow("Unexpected token at index 0 expected 'one of (a,o,n,s,b,f,d,_)' but found x");
       
     expect(thunk(mm.match, [false, { 
       'a(n,n': "return this.n" 
@@ -250,7 +250,11 @@ describe("Literals test", function() {
 
     expect(thunk(mm.match, [new Date("2013"), { 
       'd("2011", "2012")@n': "return this.n" 
-    }])).toThrow("Non-exhaustive patterns");        
+    }])).toThrow("Non-exhaustive patterns");
+    
+    expect(thunk(mm.match, [new Date("xxxx"), { 
+      'd("xxxx")@n': "return this.n" 
+    }])).toThrow("Unexpected token at index 8 expected 'date' but found )");        
   });  
 });
 
@@ -350,7 +354,7 @@ describe("Array pattern tests", function() {
 
     expect(thunk(m, [[], { 
       'a(,)': 'return true' 
-    }])).toThrow("Unexpected token at index 2 expected '(a,o,n,s,b,f,d,_)' but found ,");
+    }])).toThrow("Unexpected token at index 2 expected 'one of (a,o,n,s,b,f,d,_)' but found ,");
     
   });  
 });
