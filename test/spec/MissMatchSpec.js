@@ -120,12 +120,21 @@ describe("Literals test", function() {
     
     expect(mm.match("a", { 
       's(/[a-z]/)@n': "return this.n" 
-    })).toBe("a");                   
-
+    })).toBe("a");  
+    
+    expect(mm.match("abc", { 
+      's("a", /[a-z]/, "b")@n': "return this.n" 
+    })).toBe("abc");                   
+                  
     expect(mm.match("z", { 
       's(/[a-x]/)@n': "return this.n",
       '_': "return false"
     })).toBe(false);
+    
+    expect(mm.match("z", { 
+      's(/[a-x]/, "z")@n': "return this.n",
+      '_': "return false"
+    })).toBe("z");
                    
     expect(mm.match(5, { 
       'n(5)@n': "return this.n" 
