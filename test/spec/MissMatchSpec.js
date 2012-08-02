@@ -116,8 +116,17 @@ describe("Literals test", function() {
       
     expect(mm.match("a_b", { 
       's(  "a_b", "b"   ,  "c")@n': "return this.n" 
-    })).toBe("a_b");                   
-            
+    })).toBe("a_b");            
+    
+    expect(mm.match("a", { 
+      's(/[a-z]/)@n': "return this.n" 
+    })).toBe("a");                   
+
+    expect(mm.match("z", { 
+      's(/[a-x]/)@n': "return this.n",
+      '_': "return false"
+    })).toBe(false);
+                   
     expect(mm.match(5, { 
       'n(5)@n': "return this.n" 
     })).toBe(5);
