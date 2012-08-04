@@ -135,6 +135,15 @@ describe("Literals test", function() {
       's(/[a-x]/, "z")@n': "return this.n",
       '_': "return false"
     })).toBe("z");
+
+    expect(mm.match("peter-braun@gmx.net", { 
+      's(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)@n': "return this.n",
+      '_': "return false"
+    })).toBe("peter-braun@gmx.net");
+
+    expect(mm.match(["abbc","a"], { 
+      'a(s(/ab*c/, /ab*c*/), s(/ab*c/, /ab*c*/))@n': "return this.n[1]"
+    })).toBe("a");
                    
     expect(mm.match(5, { 
       'n(5)@n': "return this.n" 
