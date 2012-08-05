@@ -531,6 +531,23 @@ describe("Object pattern tests", function() {
     expect(thunk(mm.match, [{}, { 
       'o()': function () { return 1; } 
     }])).toThrow("Unexpected token at index 2 expected '. or :' but found )");    
+    
+    expect(thunk(mm.match, [{}, { 
+      'o(.1x123': function () { return 1; }
+    }])).toThrow("No property name given at 3 for o");    
+
+    expect(mm.match({x123_$: "weird_name"}, {
+      "o(:x123_$:s@$_123)": 
+        function () { return this.$_123; }
+    })).toBe("weird_name");
+
+    expect(thunk(mm.match, [{x123_$: "weird_name"}, { 
+      'o(:x123_$:s@123$)': function () { return 1; }
+    }])).toThrow("No binding name given at 12 for s");    
+        
+    expect(thunk(mm.match, [{x123_$: "weird_name"}, { 
+      'o(:123_$:s@_123$)': function () { return 1; }
+    }])).toThrow("No property name given at 3 for o");          
   });  
 });
 
