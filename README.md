@@ -16,6 +16,7 @@ Patterns are composed in a simple and concise syntax
   - 'b' means boolean
   - 'f' means function
   - 'd' means date
+  - 'r' means regular expression
   - '|' means the rest of a list
   - '_' means wildcard (match anything)
 
@@ -155,7 +156,7 @@ Installation
 Browser
 -------
 
-Just reference MissMatch.js. The functions 'match', 'matchJSON' and 'compile' are all bound to an object with the name 'mm'.
+Just reference MissMatch.js. The functions 'match', 'matchJSON', ',matchArgs' and 'compile' are all bound to an object with the name 'mm'.
 
 Node.js
 -------
@@ -165,6 +166,11 @@ Node.js
 
 Version History
 ---------------
+
+  - 0.0.4:
+    * can match strings with regular expressions (e.g. s(/^a*/, /[0-9]*/)).
+    * can match regular expression objects.
+    * code revised.
 
   - 0.0.3:
     * improved performance.

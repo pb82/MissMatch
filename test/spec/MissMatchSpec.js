@@ -188,6 +188,10 @@ describe("Literals test", function() {
     expect(thunk(mm.match, [1.49999, { 
       'n(2e.3)@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");        
+
+    expect(thunk(mm.match, ['2e.3', { 
+      'n(2e.3)@n': "return this.n" 
+    }])).toThrow("Non-exhaustive patterns");        
         
     expect(thunk(mm.match, ["4", {
       'n(1,2,"3",4,5)@n': "return this.n" 
@@ -294,6 +298,10 @@ describe("Literals test", function() {
     expect(mm.match(/a*b/, { 
       'r@r': function () {return this.r.test("aaa");}
     })).toBe(false);
+    
+    expect(thunk(mm.match, [/a*/, { 
+      'f("a")': "return this.n" 
+    }])).toThrow('Expected end of input but tokens found: "a")');
   });  
 });
 
@@ -489,6 +497,10 @@ describe("Object pattern tests", function() {
       "o(.size@n, :hidden@h)": 
         function () { return this.h + this.n; }
     })).toBe("hidden4");
+    
+    expect(mm.match(obj2, {
+      "o(:name:s(/na+m./)@s)": function () { return this.s; }
+    })).toBe("name");
     
     expect(mm.match("string", { 
       'o': function () {return true;},
