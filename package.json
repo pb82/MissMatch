@@ -1,7 +1,7 @@
 {
   "name": "missmatch",
   "main": "./lib/MissMatch.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Easy-to-use pattern matching for JavaScript",
   "author": "Peter Braun <peter-braun@gmx.net>",
   "scripts": {
