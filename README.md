@@ -135,7 +135,7 @@ plus(true, false);  // false
 API
 ===
 
-The API consists of three functions:
+The API consists of four functions:
   
   - **match** takes a value to match and a JavaScript Object containing the patterns and handlers. If one of the patterns matches, then
     it's handler function is executed.
