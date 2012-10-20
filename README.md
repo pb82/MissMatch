@@ -1,7 +1,7 @@
 MissMatch
 =========
 
-A pattern-matcher for JavaScript. It allows you to match any kind of JavaScript value (including arrays and objects) against patterns, bind values to names and execute 
+Pattern matching for JavaScript. It allows you to match any kind of JavaScript value (including arrays and objects) against patterns, bind values to names and execute 
 handler functions, when a pattern matches. In general this is useful in cases where you receive some value but can't be sure how it is exactly composed. It might be
 some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested to variables.
 Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
@@ -32,7 +32,7 @@ Patterns can be arbitrarily nested
     the two properties 'x' and 'y'.  
 
 
-Patterns can also be bound to variables
+Binding values in patterns to variables
 ---------------------------------------
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers where the first one is bound to the variable 'x' and the second one
@@ -48,8 +48,8 @@ mm.match(candidate, {
 
 ####Note that bound variables must always be accessed using 'this'.
 
-Objects can be matched
-----------------------
+Matching objects
+----------------
 
   - o(.x) matches an object that is required to have a property namend 'x' which must belong to the object itself and must not be a part
     of the prototype chain.
@@ -59,8 +59,8 @@ Objects can be matched
   - o(:x, .y) matches an object that is required to have (at least) two properties 'x' and 'y'. 'y' is required to belong to the object itself
     while 'x' may be part of the prototype cain.
 
-Object patterns can have type specifiers
-----------------------------------------
+Matching object properties with certain types
+---------------------------------------------
 
   - o(.x:n) matches an object with at least a property 'x' which is required to be a number. You can also bind the number's value:  
     
@@ -100,8 +100,8 @@ Patterns can contain literals
   However this equivalent to just writing 'b'.
     
     
-The rest of an array can also be matched (and bound)
-----------------------------------------------------
+Matching and binding the rest of an array
+-----------------------------------------
 
   - a(n,n,n|) matches an array that is required to contain at least three numeric values, but may also contain more.  
     
@@ -175,7 +175,7 @@ Version History
   - 0.0.3:
     * improved performance.
     * can match function arguments nicely (matchArgs).
-    * can match date values.
+    * can match date objects.
     * version string added (mm.version).
 
   - 0.0.2: 
