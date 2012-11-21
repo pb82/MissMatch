@@ -22,4 +22,4 @@ function fib (x) {
   });
 }
 
-console.log("Fibonacci value of 14 is: " + fib(14));
+console.log("Fibonacci value of 25 is: " + fib(25));

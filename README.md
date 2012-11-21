@@ -21,8 +21,8 @@ Patterns are composed in a simple and concise syntax
   - '_' means wildcard (match anything)
 
 
-Patterns can be arbitrarily nested
-----------------------------------
+Recursive patterns
+------------------
 
   - a(n, n) matches an array with exactly two numbers(e.g. [1,2]).  
   
@@ -32,8 +32,8 @@ Patterns can be arbitrarily nested
     the two properties 'x' and 'y'.  
 
 
-Binding values in patterns to variables
----------------------------------------
+Binding values
+--------------
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers where the first one is bound to the variable 'x' and the second one
     to 'y'. This can be used in the handler function of a pattern:  
@@ -70,8 +70,8 @@ Matching object properties with certain types
     (at least) the properties 'x' and 'y'. They are then bound to variables and can be used in the handler function.  
     
 
-Patterns can contain literals
------------------------------
+Literals
+--------
 
   Literals can be matched for strings, numbers and booleans. Literals may also be bound to names.
   
@@ -83,7 +83,9 @@ Patterns can contain literals
   
   - d("2012/2/28") denotes the date literal '2012/2/28'. Every valid JavaScript date string is accepted in the pattern. Time information may also be specified: d("2012/03/01 02:03:45")
   
-  ###You can specify a literal list. The pattern will match if one of the literal matches.
+
+Literal lists
+-------------
   
   - n(1,2,3) matches if one of the numbers 1, 2 or 3 occurs.
   
@@ -92,16 +94,10 @@ Patterns can contain literals
   - n(1,2,3)@x matches if one of the numbers 1, 2 or 3 occurs and binds the actual value to the variable 'x'.
   
   - d("2012/2/28", "2012/3/01") matches if one of the specified dates occur.
-  
-  ###Even lists of boolean literals are possible:
-  
-  - b(true, false)
-  
-  However this equivalent to just writing 'b'.
-    
-    
-Matching and binding the rest of an array
------------------------------------------
+      
+      
+The rest of an array
+--------------------
 
   - a(n,n,n|) matches an array that is required to contain at least three numeric values, but may also contain more.  
     
@@ -111,8 +107,8 @@ Note that the rest of an array (if there is a rest left to be matched) will alwa
 to match the rest to.
 
 
-Function arguments can be easily matched
-----------------------------------------
+Matching the arguments of the enclosing function
+------------------------------------------------
 
 You can match against the calling function's arguments without passing the arguments object. It's a nice way to write dispatching or generic functions.
 
