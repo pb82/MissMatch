@@ -302,6 +302,19 @@ describe("Literals test", function() {
     expect(thunk(mm.match, [/a*/, { 
       'f("a")': "return this.n" 
     }])).toThrow('Expected end of input but tokens found: "a")');
+    
+    expect(mm.match("हिन्दी", { 
+      's("हिन्दी")@n': "return this.n" 
+    })).toBe("हिन्दी");    
+    
+    expect(mm.match("الصفحة_الرئيسية", { 
+      's("हिन्दी", "الصفحة_الرئيسية")@n': "return this.n" 
+    })).toBe("الصفحة_الرئيسية");    
+
+    expect(mm.match({text: "Википедию"}, { 
+      'o(.text:s("Википедию")@n)': "return this.n",
+      "_@n": function () { return this.n; }
+    })).toBe("Википедию");
   });  
 });
 

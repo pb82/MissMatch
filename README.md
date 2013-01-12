@@ -3,7 +3,7 @@ MissMatch
 
 Pattern matching for JavaScript. It allows you to match any kind of JavaScript value (including arrays and objects) against patterns, bind values to names and execute 
 handler functions, when a pattern matches. In general this is useful in cases where you receive some value but can't be sure how it is exactly composed. It might be
-some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested to variables.
+some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested in to variables.
 Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
 
 Patterns are composed in a simple and concise syntax
