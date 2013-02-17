@@ -330,7 +330,11 @@ describe("Array pattern tests", function() {
     expect(m(a, { 
       'a': 'return true' 
     })).toBe(true);     
-      
+    
+    expect(m([1,true,"a",3], { 
+      'a(n(1),_,_@x,n(3))': 'return this.x' 
+    })).toBe("a");     
+    
     expect(m(a, { 
       'a(n,n|)': 'return true' 
     })).toBe(true);
@@ -454,6 +458,10 @@ describe("Object pattern tests", function() {
     expect(mm.match(obj, {
       "o(.an_array:a(n@v|))": function () { return this.v; }
     })).toBe(3);    
+    
+    expect(mm.match({x: 5}, {
+      "o(:x:n@y)": function () { return this.y; }
+    })).toBe(5);    
     
     expect(mm.match(obj, {
       "o(.an_array:a(n|@r))": function () { return this.r.length; }
