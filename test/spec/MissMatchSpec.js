@@ -177,6 +177,22 @@ describe("Literals test", function() {
       'n(1,  -.5e4)@n': "return this.n" 
     })).toBe(-5000);
 
+    expect(mm.match(1e3, { 
+      'n(1,  1e3)@n': "return this.n" 
+    })).toBe(1000);
+
+    expect(mm.match(-1e3, { 
+      'n(1,  -1e3)@n': "return this.n" 
+    })).toBe(-1000);
+
+    expect(mm.match(-1e-3, { 
+      'n(1,  -1e-3)@n': "return this.n" 
+    })).toBe(-.001);
+
+    expect(mm.match(-1E-3, { 
+      'n(1,  -1E-3)@n': "return this.n" 
+    })).toBe(-.001);
+
     expect(thunk(mm.match, ["4", { 
       'n(1,2,3,4,5)@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");
