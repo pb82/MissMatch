@@ -24,7 +24,7 @@ Patterns are composed in a simple and concise syntax
 Recursive patterns
 ------------------
 
-  - a(n, n) matches an array with exactly two numbers(e.g. [1,2]).  
+  - a(n, n) matches an array with exactly two numbers (e.g. [1,2]).  
   
   - a(a, a(n)) matches an array that is composed of two nested arrays. The second array is required to contain exactly one number.  
   
@@ -36,17 +36,17 @@ Binding values
 --------------
 
   - a(n@x, n@y) matches an array that is composed of exactly two numbers where the first one is bound to the variable 'x' and the second one
-    to 'y'. This can be used in the handler function of a pattern:  
+    to 'y'. They can be used in the handler function of the pattern:  
     
 ```  js
-mm.match(candidate, {   
+mm.match([2,3], {   
 'a(n@x, n@y)': function () { return this.x * this.y; },
 '_': function () { /* Match all */ }
 });
 
 ```
 
-####Note that bound variables must always be accessed using 'this'.
+####Note that bound variables must always be accessed using 'this' in the handler function.
 
 Matching objects
 ----------------
