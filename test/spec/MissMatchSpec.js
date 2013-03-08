@@ -245,26 +245,26 @@ describe("Literals test", function() {
       'd': function () {return true;}
     })).toBe(true);
     
-    expect(mm.match(new Date("2012"), { 
-      'd("2012", "2013")': function () {return true;}
+    expect(mm.match(new Date("1/2/2012"), { 
+      'd("1/2/2012", "1/2/2013")': function () {return true;}
     })).toBe(true);
     
-    expect(mm.match(new Date("2012"), { 
-      'd("2012")': function () {return "2012";},
+    expect(mm.match(new Date("1/1/2012"), { 
+      'd("1/1/2012")': function () {return "2012";},
       'd("2013")': function () {return "2013";}      
     })).toBe("2012");
     
-    expect(mm.match(new Date("2013"), { 
-      'd("2012")@n': function () {return this.n.getFullYear();},
-      'd("2013")@n': function () {return this.n.getFullYear();}      
+    expect(mm.match(new Date("1/1/2013"), { 
+      'd("1/1/2012")@n': function () {return this.n.getFullYear();},
+      'd("1/1/2013")@n': function () {return this.n.getFullYear();}      
     })).toBe(2013);
 
-    expect(mm.match(new Date("2012"), { 
-      'd("2012", "2013")@d': function () {return this.d.getFullYear();}
+    expect(mm.match(new Date("1/1/2012"), { 
+      'd("1/1/2012", "1/1/2013")@d': function () {return this.d.getFullYear();}
     })).toBe(2012);
 
-    expect(mm.match(new Date("2013"), { 
-      'd("2012", "2013")@d': function () {return this.d.getFullYear();}
+    expect(mm.match(new Date("1/1/2013"), { 
+      'd("1/1/2012", "1/1/2013")@d': function () {return this.d.getFullYear();}
     })).toBe(2013);
 
     expect(mm.match(new Date("2012/2/28"), { 
@@ -275,12 +275,12 @@ describe("Literals test", function() {
       'o': function () {return true;}
     })).toBe(true);
     
-    expect(mm.match([new Date(), new Date("2011")], { 
+    expect(mm.match([new Date(), new Date("1/1/2011")], { 
       'a(d@d,d)': function () {return this.d.getFullYear();}
     })).toBe(new Date().getFullYear());
 
-    expect(thunk(mm.match, [new Date("2013"), { 
-      'd("2011", "2012")@n': "return this.n" 
+    expect(thunk(mm.match, [new Date("1/1/2013"), { 
+      'd("1/1/2011", "1/1/2012")@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");
     
     expect(thunk(mm.match, [new Date("xxxx"), { 
@@ -310,6 +310,14 @@ describe("Literals test", function() {
     expect(mm.match("الصفحة_الرئيسية", { 
       's("हिन्दी", "الصفحة_الرئيسية")@n': "return this.n" 
     })).toBe("الصفحة_الرئيسية");    
+
+    expect(mm.match("\u2663", { 
+      's("\u2663")@n': "return this.n" 
+    })).toBe("\u2663");    
+
+    expect(mm.match("♣", { 
+      's("♣")@n': "return this.n" 
+    })).toBe("♣");    
 
     expect(mm.match({text: "Википедию"}, { 
       'o(.text:s("Википедию")@n)': "return this.n",
