@@ -193,6 +193,14 @@ describe("Literals test", function() {
       'n(1,  -1E-3)@n': "return this.n" 
     })).toBe(-.001);
 
+    expect(mm.match(-0E-4, { 
+      'n(-0e-4)@n': "return this.n" 
+    })).toBe(0);
+
+    expect(mm.match(+1E+1, { 
+      'n(1e1)@n': "return this.n" 
+    })).toBe(10);
+
     expect(thunk(mm.match, ["4", { 
       'n(1,2,3,4,5)@n': "return this.n" 
     }])).toThrow("Non-exhaustive patterns");

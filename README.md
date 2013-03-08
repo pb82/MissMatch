@@ -163,6 +163,10 @@ Node.js
 Version History
 ---------------
 
+  - 0.0.5 (Bugfix release)
+    * capital 'E' accepted in numeric expressions (e.g. 3E-5)
+    * code revised
+
   - 0.0.4:
     * can match strings with regular expressions (e.g. s(/^a*/, /[0-9]*/)).
     * can match regular expression objects.
