@@ -679,33 +679,6 @@ describe("JSON tests", function() {
   });  
 });
 
-describe("function argument tests", function() {
-  it("should be able match against function arguments", function() {
-      function plus() {
-        return mm.matchArgs({
-          'a(n@a, n@b)': function () { return this.a + this.b; },
-          'a(s@a, s@b)': function () { return this.a + this.b; },
-          'a(f@a, f@b)': function () { return this.a() + this.b(); },
-          'a(b@a, b@b)': function () { return this.a && this.b; },          
-          '_@a': function () { return this.a; }
-        });
-      }
-      
-      expect(plus(1,2)).toBe(3);
-      expect(plus("a","b")).toBe("ab");
-      expect(plus(true,true)).toBe(true);
-      expect(plus(false,true)).toBe(false);      
-      expect(plus(112)[0]).toBe(112);
-      expect(plus(
-        function () { return 30; }, 
-        function () { return 31; }
-      )).toBe(61);
-      
-      expect(plus("a", "b", "c").join('')).toBe("abc");
-  });  
-});
-
-
 describe("compile tests", function() {
   it("should be able to compile patterns to a function", function() {
         
