@@ -21,8 +21,8 @@ Patterns are composed in a simple and concise syntax
   - '_' means wildcard (match anything)
 
 
-Recursive patterns
-------------------
+Nested patterns
+---------------
 
   - a(n, n) matches an array with exactly two numbers (e.g. [1,2]).  
   
