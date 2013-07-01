@@ -35,19 +35,19 @@ describe("Simple pattern tests", function() {
     expect(typeof mm.compile("_")).toBe('function');
 
     expect(mm.match(1, { 
-      'n@n': "return this.n" 
+      'n@n': function() {return this.n} 
     })).toBe(1);
       
     expect(mm.match('s', { 
-      's@n': "return this.n" 
+      's@n': function() {return this.n} 
     })).toBe('s');
       
     expect(mm.match(true, { 
-      'b@n': "return this.n" 
+      'b@n': function() {return this.n} 
     })).toBe(true);
       
     expect(mm.match(function (x) {return x;}, { 
-      'f@n': "return this.n" 
+      'f@n': function() {return this.n} 
     })(1)).toBe(1);       
   });  
 });
@@ -71,198 +71,216 @@ describe("Parser tests", function() {
 describe("Literals test", function() {
   it("should recognize string, numeric and boolean literals", function() {          
     expect(mm.match("a_str", { 
-      's("a_str")@n': "return this.n" 
-    })).toBe("a_str");
+      's("a_str")@n': function() {return this.n} 
+    })).toBe("a_str");          
       
+    expect(mm.match("a", {
+      's("a")': "a",
+      '_': "b"
+    })).toBe("a");
+
+    expect(mm.match("b", {
+      's("a")': "a",
+      '_': "b"
+    })).toBe("b");
+      
+    expect(mm.match(123, {
+      'n': 124
+    })).toBe(124);
+
+    expect(mm.match(123, {
+      'n': true
+    })).toBe(true);
+            
     expect(mm.match("a_str", { 
-      's("b_str", "a_str")@n': "return this.n" 
+      's("b_str", "a_str")@n': function() {return this.n} 
     })).toBe("a_str");    
     
     expect(mm.match("a_str", { 
-      's("a_str", "b_str")@n': "return this.n" 
+      's("a_str", "b_str")@n': function() {return this.n} 
     })).toBe("a_str");        
     
     expect(mm.match("b_str", { 
-      's("a_str", "b_str")@n': "return this.n" 
+      's("a_str", "b_str")@n': function() {return this.n} 
     })).toBe("b_str");    
             
     expect(mm.match("b_str", { 
-      's("b_str", "a_str")@n': "return this.n" 
+      's("b_str", "a_str")@n': function() {return this.n} 
     })).toBe("b_str");    
             
     expect(thunk(mm.match, ["a_str", { 
-      's("b_str", 1)@n': "return this.n" 
+      's("b_str", 1)@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 12 expected 'string' but found 1");      
       
     expect(thunk(mm.match, ["a_str", { 
-      's("b_str", true)@n': "return this.n" 
+      's("b_str", true)@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 12 expected 'string' but found t");        
     
     expect(mm.match("hello", { 
-      's("hello", "world")@n': "return this.n + ' world'" 
+      's("hello", "world")@n': function(){return this.n + ' world'}
     })).toBe("hello world");         
 
     expect(mm.match("e", { 
-      's("a", "b", "c", "z", "e")@n': "return this.n" 
+      's("a", "b", "c", "z", "e")@n': function() {return this.n} 
     })).toBe("e");         
     
     expect(mm.match("z", { 
-      's("a", "b", "c", "z", "e")@n': "return this.n" 
+      's("a", "b", "c", "z", "e")@n': function() {return this.n} 
     })).toBe("z");                         
       
     expect(thunk(mm.match, ["b", { 
-      's("c", "d", "e")@n': "return this.n" 
+      's("c", "d", "e")@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");        
       
     expect(mm.match("a_b", { 
-      's(  "a_b", "b"   ,  "c")@n': "return this.n" 
+      's(  "a_b", "b"   ,  "c")@n': function() {return this.n} 
     })).toBe("a_b");            
     
     expect(mm.match("a", { 
-      's(/[a-z]/)@n': "return this.n" 
+      's(/[a-z]/)@n': function() {return this.n} 
     })).toBe("a");  
     
     expect(mm.match("abc", { 
-      's("a", /[a-z]/, "b")@n': "return this.n" 
+      's("a", /[a-z]/, "b")@n': function() {return this.n} 
     })).toBe("abc");                   
                   
     expect(mm.match("z", { 
-      's(/[a-x]/)@n': "return this.n",
-      '_': "return false"
+      's(/[a-x]/)@n': function() {return this.n},
+      '_': false
     })).toBe(false);
     
     expect(mm.match("z", { 
-      's(/[a-x]/, "z")@n': "return this.n",
-      '_': "return false"
+      's(/[a-x]/, "z")@n': function() {return this.n} ,
+      '_': false
     })).toBe("z");
 
     expect(mm.match("peter-braun@gmx.net", { 
-      's(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)@n': "return this.n",
-      '_': "return false"
+      's(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/)@n': function() {return this.n},
+      '_': false
     })).toBe("peter-braun@gmx.net");
 
     expect(mm.match(["abbc","a"], { 
-      'a(s(/ab*c/, /ab*c*/), s(/ab*c/, /ab*c*/))@n': "return this.n[1]"
+      'a(s(/ab*c/, /ab*c*/), s(/ab*c/, /ab*c*/))@n': function(){return this.n[1]}
     })).toBe("a");
                    
     expect(mm.match(5, { 
-      'n(5)@n': "return this.n" 
+      'n(5)@n': function() {return this.n} 
     })).toBe(5);
       
     expect(mm.match(4, { 
-      'n(1,2,3,4,5)@n': "return this.n" 
+      'n(1,2,3,4,5)@n': function() {return this.n} 
     })).toBe(4);
       
     expect(mm.match(1.5, { 
-      'n(1,2,1.5,1)@n': "return this.n" 
+      'n(1,2,1.5,1)@n': function() {return this.n} 
     })).toBe(1.5);
 
     expect(mm.match(1.4999, { 
-      'n(1, 2, 1.4999, 1)@n': "return this.n" 
+      'n(1, 2, 1.4999, 1)@n': function() {return this.n} 
     })).toBe(1.4999);
       
     expect(mm.match(8000, { 
-      'n(1,  8e3)@n': "return this.n" 
+      'n(1,  8e3)@n': function() {return this.n} 
     })).toBe(80*100);
       
     expect(mm.match(0.08, { 
-      'n(1,  .08)@n': "return this.n" 
+      'n(1,  .08)@n': function() {return this.n} 
     })).toBe(8 / 100);
       
     expect(mm.match(0.04, { 
-      'n(1,  +.04)@n': "return this.n" 
+      'n(1,  +.04)@n': function() {return this.n} 
     })).toBe(4 / 100);
 
     expect(mm.match(-5000, { 
-      'n(1,  -.5e4)@n': "return this.n" 
+      'n(1,  -.5e4)@n': function() {return this.n} 
     })).toBe(-5000);
 
     expect(mm.match(1e3, { 
-      'n(1,  1e3)@n': "return this.n" 
+      'n(1,  1e3)@n': function() {return this.n} 
     })).toBe(1000);
 
     expect(mm.match(-1e3, { 
-      'n(1,  -1e3)@n': "return this.n" 
+      'n(1,  -1e3)@n': function() {return this.n} 
     })).toBe(-1000);
 
     expect(mm.match(-1e-3, { 
-      'n(1,  -1e-3)@n': "return this.n" 
+      'n(1,  -1e-3)@n': function() {return this.n} 
     })).toBe(-.001);
 
     expect(mm.match(-1E-3, { 
-      'n(1,  -1E-3)@n': "return this.n" 
+      'n(1,  -1E-3)@n': function() {return this.n} 
     })).toBe(-.001);
 
     expect(mm.match(-0E-4, { 
-      'n(-0e-4)@n': "return this.n" 
+      'n(-0e-4)@n': function() {return this.n} 
     })).toBe(0);
 
     expect(mm.match(+1E+1, { 
-      'n(1e1)@n': "return this.n" 
+      'n(1e1)@n': function() {return this.n} 
     })).toBe(10);
 
     expect(thunk(mm.match, ["4", { 
-      'n(1,2,3,4,5)@n': "return this.n" 
+      'n(1,2,3,4,5)@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");
     
     expect(thunk(mm.match, [1.49999, { 
-      'n(1.49998)@n': "return this.n" 
+      'n(1.49998)@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");        
     
     expect(thunk(mm.match, [1.49999, { 
-      'n(2e.3)@n': "return this.n" 
+      'n(2e.3)@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");        
 
     expect(thunk(mm.match, ['2e.3', { 
-      'n(2e.3)@n': "return this.n" 
+      'n(2e.3)@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");        
         
     expect(thunk(mm.match, ["4", {
-      'n(1,2,"3",4,5)@n': "return this.n" 
+      'n(1,2,"3",4,5)@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 6 expected 'numeric' but found \"");
       
     expect(mm.match(true, { 
-      'b(true)@n': "return this.n" 
+      'b(true)@n': function() {return this.n} 
     })).toBe(true);
       
     expect(mm.match(false, { 
-      'b(false)@n': "return this.n" 
+      'b(false)@n': function() {return this.n} 
     })).toBe(false);
       
     expect(mm.match(false, { 
-      'b(true,false)@n': "return this.n" 
+      'b(true,false)@n': function() {return this.n} 
     })).toBe(false);
       
     expect(mm.match(true, { 
-      'b( true, true,  true  )@n': "return this.n" 
+      'b( true, true,  true  )@n': function() {return this.n} 
     })).toBe(true);
               
     expect(mm.match([true,false], { 
-      'a(b(true)@a, b(false)@b)': "return this.a && this.b" 
+      'a(b(true)@a, b(false)@b)': function(){return this.a && this.b} 
     })).toBe(false);
     
     expect(mm.match({x:{y: true}}, { 
-      'o(.x:o(.y:b(true)@n))': "return this.n" 
+      'o(.x:o(.y:b(true)@n))': function() {return this.n} 
     })).toBe(true);
                                         
     expect(thunk(mm.match, [[false,true], { 
-      'a(b(true)@a, b(false)@b)': "return this.a && this.b" 
+      'a(b(true)@a, b(false)@b)': function(){return this.a && this.b} 
     }])).toThrow("Non-exhaustive patterns");        
                                                         
     expect(thunk(mm.match, [false, { 
-      'b(true)@n': "return this.n" 
+      'b(true)@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");        
     
     expect(thunk(mm.match, [1, { 
-      'n(,)@n': "return this.n" 
+      'n(,)@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 2 expected 'numeric' but found ,");        
 
     expect(thunk(mm.match, [false, { 
-      'b(,)@n': "return this.n" 
+      'b(,)@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 2 expected 'boolean' but found ,");        
 
     expect(thunk(mm.match, ["b", { 
-      's(,)@n': "return this.n" 
+      's(,)@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 3 expected 'string' but found ,");        
     
     expect(mm.match(new Date(), { 
@@ -304,11 +322,11 @@ describe("Literals test", function() {
     })).toBe(new Date().getFullYear());
 
     expect(thunk(mm.match, [new Date("1/1/2013"), { 
-      'd("1/1/2011", "1/1/2012")@n': "return this.n" 
+      'd("1/1/2011", "1/1/2012")@n': function() {return this.n} 
     }])).toThrow("Non-exhaustive patterns");
     
     expect(thunk(mm.match, [new Date("xxxx"), { 
-      'd("xxxx")@n': "return this.n" 
+      'd("xxxx")@n': function() {return this.n} 
     }])).toThrow("Unexpected token at index 8 expected 'date' but found )");        
     
     expect(thunk(mm.match, [/a*/, { 
@@ -324,27 +342,27 @@ describe("Literals test", function() {
     })).toBe(false);
     
     expect(thunk(mm.match, [/a*/, { 
-      'f("a")': "return this.n" 
+      'f("a")': function() {return this.n} 
     }])).toThrow('Expected end of input but tokens found: "a")');
     
     expect(mm.match("हिन्दी", { 
-      's("हिन्दी")@n': "return this.n" 
+      's("हिन्दी")@n': function() {return this.n} 
     })).toBe("हिन्दी");    
     
     expect(mm.match("الصفحة_الرئيسية", { 
-      's("हिन्दी", "الصفحة_الرئيسية")@n': "return this.n" 
+      's("हिन्दी", "الصفحة_الرئيسية")@n': function() {return this.n} 
     })).toBe("الصفحة_الرئيسية");    
 
     expect(mm.match("\u2663", { 
-      's("\u2663")@n': "return this.n" 
+      's("\u2663")@n': function() {return this.n} 
     })).toBe("\u2663");    
 
     expect(mm.match("♣", { 
-      's("♣")@n': "return this.n" 
+      's("♣")@n': function() {return this.n} 
     })).toBe("♣");    
 
     expect(mm.match({text: "Википедию"}, { 
-      'o(.text:s("Википедию")@n)': "return this.n",
+      'o(.text:s("Википедию")@n)': function() {return this.n} ,
       "_@n": function () { return this.n; }
     })).toBe("Википедию");
   });  
@@ -360,31 +378,31 @@ describe("Array pattern tests", function() {
     })).toBe(true);
       
     expect(m(a, { 
-      'a': 'return true' 
+      'a': true
     })).toBe(true);     
     
     expect(m([1,true,"a",3], { 
-      'a(n(1),_,_@x,n(3))': 'return this.x' 
+      'a(n(1),_,_@x,n(3))': function(){return this.x} 
     })).toBe("a");     
     
     expect(m(a, { 
-      'a(n,n|)': 'return true' 
+      'a(n,n|)': true
     })).toBe(true);
       
     expect(m(a, { 
-      'a(n,n,a,s,f)': 'return true' 
+      'a(n,n,a,s,f)': true
     })).toBe(true);    
       
     expect(thunk(m, [a, { 
-      'a(n,n,s,a,f)': 'return true' 
+      'a(n,n,s,a,f)': true
     }])).toThrow("Non-exhaustive patterns");
       
     expect(m(a, { 
-      'a(_,n@x,a(o@obj)|)': 'return this.obj.x * this.x' 
+      'a(_,n@x,a(o@obj)|)': function(){return this.obj.x * this.x} 
     })).toBe(10);
     
     expect(m(a, { 
-      'a(n(1,2,3)@a, n(3,2,1)@b|)': 'return this.a * this.b' 
+      'a(n(1,2,3)@a, n(3,2,1)@b|)': function(){return this.a * this.b}
     })).toBe(2); 
 
     expect(m([1,2,3], {    
@@ -400,56 +418,56 @@ describe("Array pattern tests", function() {
     })).toBe(5);
           
     expect(m([1,2,3], { 
-      'a(n(1,2),n(1,2),n(1,2))': 'return true',
-      '_': 'return false'
+      'a(n(1,2),n(1,2),n(1,2))': true,
+      '_': false
     })).toBe(false);   
 
     expect(m([1,2,2], { 
-      'a(n(1,2),n(1,2),n(1,2))': 'return true',
-      '_': 'return false'
+      'a(n(1,2),n(1,2),n(1,2))': true,
+      '_': false
     })).toBe(true);   
 
     expect(m([], { 
-      'a()': 'return true' 
+      'a()': true
     })).toBe(true);   
     
     expect(m([1,2], { 
-      'a()': 'return true',
-      '_': 'return false'
+      'a()': true,
+      '_': false
     })).toBe(false);
     
     expect(m([1], { 
-      'a()': 'return true',
-      '_': 'return false'
+      'a()': true,
+      '_': false
     })).toBe(false);
      
     expect(m([], { 
-      'a(n)': 'return true',
-      '_': 'return false'
+      'a(n)': true,
+      '_': false
     })).toBe(false);
 
     expect(m([], { 
-      'a()@n': 'this.n.push(1); return this.n.length;' 
+      'a()@n': function(){this.n.push(1); return this.n.length;} 
     })).toBe(1);
          
     expect(m([2,3,4], { 
-      'a(|@n)': 'return this.n[1];' 
+      'a(|@n)': function(){return this.n[1];} 
     })).toBe(3);
     
     expect(m([2,3,4], { 
-      'a(|)': 'return true;' 
+      'a(|)': true
     })).toBe(true);
     
     expect(m([2,3,4], { 
-      'a(|)@a': 'return this.a.length;' 
+      'a(|)@a': function(){return this.a.length;}
     })).toBe(3);
     
     expect(m({x: [[1,2],[3,4,5]]}, { 
-      'o(:x:a(a(|)@a,a(n,n@b,|)))': 'return this.a.length * this.b;' 
+      'o(:x:a(a(|)@a,a(n,n@b,|)))': function(){return this.a.length * this.b;} 
     })).toBe(8);
 
     expect(thunk(m, [[], { 
-      'a(,)': 'return true' 
+      'a(,)': true 
     }])).toThrow("Unexpected token at index 2 expected 'one of (a,o,n,s,b,f,d,r,_)' but found ,");
     
   });  
@@ -678,33 +696,6 @@ describe("JSON tests", function() {
 
   });  
 });
-
-describe("function argument tests", function() {
-  it("should be able match against function arguments", function() {
-      function plus() {
-        return mm.matchArgs({
-          'a(n@a, n@b)': function () { return this.a + this.b; },
-          'a(s@a, s@b)': function () { return this.a + this.b; },
-          'a(f@a, f@b)': function () { return this.a() + this.b(); },
-          'a(b@a, b@b)': function () { return this.a && this.b; },          
-          '_@a': function () { return this.a; }
-        });
-      }
-      
-      expect(plus(1,2)).toBe(3);
-      expect(plus("a","b")).toBe("ab");
-      expect(plus(true,true)).toBe(true);
-      expect(plus(false,true)).toBe(false);      
-      expect(plus(112)[0]).toBe(112);
-      expect(plus(
-        function () { return 30; }, 
-        function () { return 31; }
-      )).toBe(61);
-      
-      expect(plus("a", "b", "c").join('')).toBe("abc");
-  });  
-});
-
 
 describe("compile tests", function() {
   it("should be able to compile patterns to a function", function() {
