@@ -111,6 +111,7 @@ Matching the arguments of the enclosing function
 ------------------------------------------------
 
 You can match against the calling function's arguments without passing the arguments object. It's a nice way to write dispatching or generic functions.
+(deprecated as of 0.1.0)
 
 ```  js
 function plus() {
