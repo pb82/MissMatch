@@ -164,6 +164,10 @@ Node.js
 Version History
 ---------------
 
+  - 0.1.0
+    * Non-function handler arguments allowed
+    * matchArgs is now deprecated
+
   - 0.0.5 (Bugfix release)
     * capital 'E' accepted in numeric expressions (e.g. 3E-5)
     * code revised
