@@ -48,6 +48,27 @@ mm.match([2,3], {
 
 ####Note that bound variables must always be accessed using 'this' in the handler function.
 
+
+Returning values when a pattern matches
+---------------------------------------
+
+The right side of a pattern may be a function or any other value. If it is a function and the pattern matches, then the result of the function is returned.
+If it is a non-function value and the pattern matches, then this value is returned. In earlier version (pre 0.1.0) only handler functions were allowed.
+
+```  js
+// Handler function
+mm.match(42, {   
+'n@x': function () { return this.x; }
+});
+
+// Return a value when the pattern matches
+mm.match(42, {   
+'n@x': 42
+});
+
+```
+
+
 Matching objects
 ----------------
 
