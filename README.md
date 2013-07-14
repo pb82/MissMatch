@@ -49,8 +49,8 @@ mm.match([2,3], {
 ####Note that bound variables must always be accessed using 'this' in the handler function.
 
 
-Returning values when a pattern matches
----------------------------------------
+Returning values from a (matching) pattern
+------------------------------------------
 
 The right side of a pattern may be a function or any other value. If it is a function and the pattern matches, then the result of the function is returned.
 If it is a non-function value and the pattern matches, then this value is returned. In earlier version (pre 0.1.0) only handler functions were allowed.
@@ -80,8 +80,8 @@ Matching objects
   - o(:x, .y) matches an object that is required to have (at least) two properties 'x' and 'y'. 'y' is required to belong to the object itself
     while 'x' may be part of the prototype cain.
 
-Matching object properties with certain types
----------------------------------------------
+Matching object properties by type
+----------------------------------
 
   - o(.x:n) matches an object with at least a property 'x' which is required to be a number. You can also bind the number's value:  
     
@@ -94,7 +94,7 @@ Matching object properties with certain types
 Literals
 --------
 
-  Literals can be matched for strings, numbers and booleans. Literals may also be bound to names.
+  Literals can be matched for strings, numbers, booleans and dates. Literals may also be bound to names.
   
   - n(121.5) denotes the numeric literal 121.5.
     
