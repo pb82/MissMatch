@@ -63,7 +63,7 @@ mm.match(42, {
 
 // Return a value when the pattern matches
 mm.match(42, {   
-'n@x': 42
+'n': 42
 });
 
 ```
