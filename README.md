@@ -77,6 +77,8 @@ mm.match(42, {
 Matching objects
 ----------------
 
+  - o matches any object.
+
   - o(.x) matches an object that is required to have a property namend 'x' which must belong to the object itself and must not be a part
     of the prototype chain.
     
@@ -104,6 +106,8 @@ Literals
   - n(121.5) denotes the numeric literal 121.5.
     
   - s("a_str") denotes the string literal 'a_str'.
+  
+  - s(/^a*/) requires the string to match the regular expression /^a*/.
   
   - b(true) denotes a boolean literal that only matches 'true' values.
   
