@@ -6,6 +6,9 @@ handler functions, when a pattern matches. In general this is useful in cases wh
 some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested in to variables.
 Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
 
+- License: MIT
+- Contributions, Issue Reports & Suggestions welcome!
+
 Patterns are composed in a simple and concise syntax
 ----------------------------------------------------
 
@@ -23,6 +26,8 @@ Patterns are composed in a simple and concise syntax
 
 Nested patterns
 ---------------
+
+Patterns may be arbitrarily nested.
 
   - a(n, n) matches an array with exactly two numbers (e.g. [1,2]).  
   
@@ -46,7 +51,7 @@ mm.match([2,3], {
 
 ```
 
-####Note that bound variables must always be accessed using 'this' in the handler function.
+__Note that bound variables must always be accessed using 'this' in the handler function.__
 
 
 Returning values from a (matching) pattern
@@ -63,7 +68,7 @@ mm.match(42, {
 
 // Return a value when the pattern matches
 mm.match(42, {   
-'n@x': 42
+'n': 42
 });
 
 ```
@@ -71,6 +76,8 @@ mm.match(42, {
 
 Matching objects
 ----------------
+
+  - o matches any object.
 
   - o(.x) matches an object that is required to have a property namend 'x' which must belong to the object itself and must not be a part
     of the prototype chain.
@@ -99,6 +106,8 @@ Literals
   - n(121.5) denotes the numeric literal 121.5.
     
   - s("a_str") denotes the string literal 'a_str'.
+  
+  - s(/^a*/) requires the string to match the regular expression /^a*/.
   
   - b(true) denotes a boolean literal that only matches 'true' values.
   
@@ -171,10 +180,16 @@ The API consists of four functions:
 Installation
 ============
 
+MissMatch can be used in the Browser, with Node.js and possibly with other server-side JavaScript Engines like Rhino (haven't tested that yet).
+It has no dependencies.
+
 Browser
 -------
+```
+<script type="text/javascript" src="/path/to/MissMatch.js"></script>
+```
 
-Just reference MissMatch.js. The functions 'match', 'matchJSON', ',matchArgs' and 'compile' are all bound to an object with the name 'mm'.
+The functions 'match', 'matchJSON', ',matchArgs' and 'compile' are all bound to an object with the name 'mm'.
 
 Node.js
 -------
