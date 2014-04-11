@@ -512,7 +512,11 @@ describe("Object pattern tests", function() {
     expect(mm.match({x: 5}, {
       "o(:x:n@y)": function () { return this.y; }
     })).toBe(5);    
-    
+
+    expect(mm.match({x: 5}, {
+      "o(:x:n(5)@y)": function () { return this.y; }
+    })).toBe(5);    
+        
     expect(mm.match(obj, {
       "o(.an_array:a(n|@r))": function () { return this.r.length; }
     })).toBe(4);    
