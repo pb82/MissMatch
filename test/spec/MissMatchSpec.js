@@ -48,15 +48,33 @@ describe("Simple pattern tests", function() {
       
     expect(mm.match(function (x) {return x;}, { 
       'f@n': function() {return this.n} 
-    })(1)).toBe(1);       
-  });  
+    })(1)).toBe(1); 
+    
+    expect(mm.match('', {
+      "S": "ok",
+      "_": "nok"
+    })).toBe('nok');
+    
+    expect(mm.match('not empty', {
+      "S": "ok",
+      "_": "nok"
+    })).toBe('ok');
+    
+    expect(thunk(mm.match, ['', { 
+      'S': "ok" 
+    }])).toThrow("Non-exhaustive patterns");
+
+    expect(mm.match('', {
+      "s": "ok",
+    })).toBe('ok');          
+  });      
 });
 
 describe("Parser tests", function() {
   it("should correctly parse expressions", function() {          
     expect(thunk(mm.match, [false, { 
       'x': "return this.n" 
-    }])).toThrow("Unexpected token at index 0 expected 'one of (a,o,n,s,b,f,d,r,_)' but found x");
+    }])).toThrow("Unexpected token at index 0 expected 'one of (a,o,n,s,S,b,f,d,r,_)' but found x");
       
     expect(thunk(mm.match, [false, { 
       'a(n,n': "return this.n" 
@@ -392,7 +410,24 @@ describe("Array pattern tests", function() {
     expect(m(a, { 
       'a(n,n,a,s,f)': true
     })).toBe(true);    
-      
+
+    expect(m(['','a'], { 
+      'a(s,S)': true
+    })).toBe(true);    
+
+    expect(m(['','a'], { 
+      'a(s(""),S)': true
+    })).toBe(true);    
+
+    expect(m(['','a'], { 
+      'a(s("a"),S)': true,
+      '_': false
+    })).toBe(false);    
+    
+    expect(thunk(m, [['', 'a'], { 
+      'a(S,s)': true
+    }])).toThrow("Non-exhaustive patterns");
+            
     expect(thunk(m, [a, { 
       'a(n,n,s,a,f)': true
     }])).toThrow("Non-exhaustive patterns");
@@ -468,7 +503,7 @@ describe("Array pattern tests", function() {
 
     expect(thunk(m, [[], { 
       'a(,)': true 
-    }])).toThrow("Unexpected token at index 2 expected 'one of (a,o,n,s,b,f,d,r,_)' but found ,");
+    }])).toThrow("Unexpected token at index 2 expected 'one of (a,o,n,s,S,b,f,d,r,_)' but found ,");
     
   });  
 });
@@ -582,6 +617,26 @@ describe("Object pattern tests", function() {
       '_': function () {return false;}
     })).toBe(false);
 
+    expect(mm.match({prop: ""}, { 
+      'o(.prop:S)': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(false);
+    
+    expect(mm.match({prop: ""}, { 
+      'o(.prop:s)': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(true);
+    
+    expect(mm.match({prop: ""}, { 
+      'o(.prop:s(""))': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(true);
+    
+    expect(mm.match({prop: "a"}, { 
+      'o(.prop:s("a"))': function () {return true;},
+      '_': function () {return false;}
+    })).toBe(true);
+    
     expect(mm.match(3, { 
       'o': function () {return true;},
       '_': function () {return false;}

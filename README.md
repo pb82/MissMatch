@@ -16,6 +16,7 @@ Patterns are composed in a simple and concise syntax
   - 'o' means object
   - 'n' means numeric
   - 's' means string
+  - 'S' means non-blank string
   - 'b' means boolean
   - 'f' means function
   - 'd' means date
@@ -199,6 +200,8 @@ Node.js
 
 Version History
 ---------------
+  - 0.1.1
+    * can match non-blank strings (with S)
 
   - 0.1.0
     * Non-function handler arguments allowed
