@@ -1,0 +1,15 @@
+{
+    "name": "MissMatch",
+    "version": "0.1.1",
+    "license": "MIT",
+    "authors": [
+        "Peter Braun <peter-braun@gmx.net>"
+    ],
+    "ignore": [
+        ".*",
+        "tests",
+        "scripts",
+        "examples"
+    ],
+    "main": "lib/MissMatch.js"
+}
