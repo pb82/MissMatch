@@ -12,5 +12,14 @@
         "examples",
         "node_modules"
     ],
+    "keywords": [
+      "pattern",
+      "matching",
+      "functional",
+      "match",
+      "decompose",
+      "validate",
+      "validation"
+    ],
     "main": "dist/missmatch.min.js"
 }

@@ -16,7 +16,9 @@
     "matching",
     "functional",
     "match",
-    "decompose"
+    "decompose",
+    "validate",
+    "validation"
   ],
   "license": "MIT",
   "devDependencies": {
