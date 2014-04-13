@@ -9,7 +9,8 @@
         ".*",
         "tests",
         "scripts",
-        "examples"
+        "examples",
+        "node_modules"
     ],
     "main": "lib/MissMatch.js"
 }
