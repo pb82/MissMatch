@@ -12,5 +12,5 @@
         "examples",
         "node_modules"
     ],
-    "main": "lib/MissMatch.js"
+    "main": "dist/missmatch.min.js"
 }
