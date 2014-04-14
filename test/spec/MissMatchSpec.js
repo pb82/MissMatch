@@ -808,3 +808,34 @@ describe("variable and property naming test", function() {
     expect(thunk(mm.compile, ['o(.x:n@1)'])).toThrow();
   });  
 });
+
+describe("Pattern array test", function() {
+  it("should correctly handle pattern/handler arrays", function() {  
+
+    expect(mm.match('abcd', [
+      "s", true
+    ])).toBe(true);
+
+    expect(mm.match(true, [
+      "s", true,
+      "b", false
+    ])).toBe(false);
+
+    expect(mm.match({o: 1}, [
+      "o(.o:n@n)", function () {return this.n},
+      "_", false
+    ])).toBe(1);
+
+    var pattern = "o";
+    expect(mm.match({o: 1}, [
+      pattern, 12,
+      "_", false
+    ])).toBe(12);
+    
+    expect(thunk(mm.match, ['abcd', [
+      "s", true,
+      "n"
+    ]])).toThrow('Missing handler for pattern');
+    
+  });
+});
