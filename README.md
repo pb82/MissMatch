@@ -1,16 +1,13 @@
 MissMatch
 =========
 
-Pattern matching for JavaScript. It allows you to match any kind of JavaScript value (including arrays and objects) against patterns, bind values to names and execute 
-handler functions, when a pattern matches. In general this is useful in cases where you receive some value but can't be sure how it is exactly composed. It might be
-some nested array or object. Pattern matching lets you test your input against composition-patterns, decompose it and bind the properties you are interested in to variables.
-Patterns and handler functions are entered as JavaScript objects where patterns are the keys (strings) and handlers are the values (functions).
+Powerful pattern matching for javascript. Can match any kind of javascript value against patterns, bind values and execute handlers when a pattern matches.
 
 - License: MIT
 - Contributions, Issue Reports & Suggestions welcome!
 
-Patterns are composed in a simple and concise syntax
-----------------------------------------------------
+Simple and concise syntax
+-------------------------
 
   - 'a' means array
   - 'o' means object
@@ -23,6 +20,28 @@ Patterns are composed in a simple and concise syntax
   - 'r' means regular expression
   - '|' means the rest of a list
   - '_' means wildcard (match anything)
+
+
+Basic usage
+-----------
+
+```
+mm.match(<OBJECT>, {   
+  <PATTERN>: <HANDLER>,
+  ...
+});
+
+```
+
+or (since 0.1.2)
+
+```
+mm.match(<OBJECT>, [   
+  <PATTERN>, <HANDLER>,
+  ...
+]);
+```
+(the second approach has the advantage that patterns can be stored in variables)
 
 
 Nested patterns
@@ -200,6 +219,12 @@ Node.js
 
 Version History
 ---------------
+  - 0.1.2
+    * patterns and handlers can be contained in an array
+    * includes minified library
+    * added gruntfile
+    * available on bower
+
   - 0.1.1
     * can match non-blank strings (with S)
 
