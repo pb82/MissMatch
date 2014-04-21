@@ -1,6 +1,6 @@
 {
     "name": "MissMatch",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "license": "MIT",
     "authors": [
         "Peter Braun <peter-braun@gmx.net>"
@@ -21,5 +21,9 @@
       "validate",
       "validation"
     ],
+    "devDependencies": {
+      "grunt": "~0.4.2",
+      "grunt-contrib-uglify": "~0.2.2"
+    },
     "main": "dist/missmatch.min.js"
 }
