@@ -1,6 +1,8 @@
 MissMatch
 =========
 
+[![NPM](https://nodei.co/npm/missmatch.png?compact=true)](https://nodei.co/npm/missmatch/)
+
 Powerful pattern matching for javascript. Can match any kind of javascript value against patterns, bind values and execute handlers when a pattern matches.
 
 - License: MIT
