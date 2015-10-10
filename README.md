@@ -35,7 +35,7 @@ mm.match(<OBJECT>, {
 
 ```
 
-or (since 0.1.2)
+or (alternatively since 0.1.2)
 
 ```
 mm.match(<OBJECT>, [   
