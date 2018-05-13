@@ -390,7 +390,12 @@ describe("Array pattern tests", function() {
   it("should recognize arrays", function() {          
     var m = mm.match;
     var a = [1,2,[{x: 5}], 'string', function (x) { return x*x }];
-    
+    var restArray = ['a','b','c'];
+
+    expect(m(restArray, {
+      'a(s, s, s|)': function () { return true; }
+    })).toBe(true);
+
     expect(m(a, {
       '_@a': function () {return this.a.length === 5} 
     })).toBe(true);

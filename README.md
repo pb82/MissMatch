@@ -221,6 +221,9 @@ Node.js
 
 Version History
 ---------------
+  - 0.1.3
+    * bugfix: rest parameter didn't match if there wasn't a rest
+
   - 0.1.2
     * patterns and handlers can be contained in an array
     * includes minified library
