@@ -221,6 +221,9 @@ Node.js
 
 Version History
 ---------------
+  - 0.1.4
+    * bugfix: accidentally added grunt-cli to dependencies instead of dev-dependencies
+
   - 0.1.3
     * bugfix: rest parameter didn't match if there wasn't a rest
 
