@@ -233,6 +233,10 @@ Node.js
 
 Version History
 ---------------
+  - 1.0.1
+    * Add Typescript typings
+    * bugfix: version was not exported
+
   - 1.0.0
     * `matchArgs` has been removed
     * Options can be passed into `match` as a third argument

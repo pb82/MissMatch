@@ -16,7 +16,7 @@ describe("Basic tests (module integrity)", function() {
       .toBe('function');
 
       expect(mm.version)
-          .toBe('1.0.0');
+          .toBe('1.0.1');
 
       expect(mm.match(mm, {
       'o(.match:f@m, .matchJSON:f, .compile:f)': function () {
