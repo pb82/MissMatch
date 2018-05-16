@@ -31,7 +31,7 @@ Basic usage
 mm.match(<OBJECT>, {   
   <PATTERN>: <HANDLER>,
   ...
-});
+}, <OPTIONS>);
 
 ```
 
@@ -41,10 +41,13 @@ or (alternatively since 0.1.2)
 mm.match(<OBJECT>, [   
   <PATTERN>, <HANDLER>,
   ...
-]);
+], <OPTIONS>);
 ```
+
 (the second approach has the advantage that patterns can be stored in variables)
 
+Options are, well, optional. If provided they must be in the form of an object. The only supported option at the moment is `arrow`. If set to true bound parameters will be passed as arguments to handler functions instead of injected into their `this` context.
+This is required to support arrow functions because they do not have their own `this` context (or rather `this` inside an arrow function refers to the surrounding context).
 
 Nested patterns
 ---------------
@@ -73,9 +76,6 @@ mm.match([2,3], {
 
 ```
 
-__Note that bound variables must always be accessed using 'this' in the handler function.__
-
-
 Returning values from a (matching) pattern
 ------------------------------------------
 
@@ -95,6 +95,16 @@ mm.match(42, {
 
 ```
 
+Using arrow functions as handlers
+---------------------------------
+
+Starting with version 1.0.0 you can use ES6 arrow functions as handlers provided you set the `arrow: true` option:
+
+```js
+mm.match({x: 5, y: 6}, {
+'o(.x@left, .y@right)': ({left, right}) => left * right
+}, {arrow: true});
+```
 
 Matching objects
 ----------------

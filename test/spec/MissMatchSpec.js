@@ -761,40 +761,40 @@ describe("JSON tests", function() {
   });  
 });
 
+describe("Arrow function tests", function() {
+    it("should allow ES6 arrow functions as handlers", function() {
+
+        const data = {x: 2, y: "3"};
+
+        expect(mm.match(data, {
+          'o(.x@value)': ({value}) => value === 2
+        }, {arrow: true})).toBe(true);
+
+        expect(thunk(mm.match(data, {
+            'o(.x@value)': () => this.value === 2
+        }, {arrow: false}))).toThrow();
+
+        expect(thunk(mm.match(data, {
+            'o(.x@value)': () => this.value === 2
+        }))).toThrow();
+
+        expect(mm.match(data, [
+            'o(.y@value)', ({value})=> value + value,
+            '_', false
+        ], {arrow: true})).toBe("33");
+
+    });
+});
+
+
 describe("compile tests", function() {
   it("should be able to compile patterns to a function", function() {
         
-    var fun = mm.compile('a(_,n,s|)');
+    var fun       = mm.compile('a(_,n,s|)');
     var fail      = fun([1,2,3,4,5]).result;
     var success   = fun([1,2,'a','b','c']).result;
 
     expect(!fail && success).toBe(true);
-  });  
-});
-
-describe("function argument tests (deprecated as of 0.1.0)", function() {
-  it("should be able match against function arguments", function() {
-      function plus() {
-        return mm.matchArgs({
-          'a(n@a, n@b)': function () { return this.a + this.b; },
-          'a(s@a, s@b)': function () { return this.a + this.b; },
-          'a(f@a, f@b)': function () { return this.a() + this.b(); },
-          'a(b@a, b@b)': function () { return this.a && this.b; },          
-          '_@a': function () { return this.a; }
-        });
-      }
-      
-      expect(plus(1,2)).toBe(3);
-      expect(plus("a","b")).toBe("ab");
-      expect(plus(true,true)).toBe(true);
-      expect(plus(false,true)).toBe(false);      
-      expect(plus(112)[0]).toBe(112);
-      expect(plus(
-        function () { return 30; }, 
-        function () { return 31; }
-      )).toBe(61);
-      
-      expect(plus("a", "b", "c").join('')).toBe("abc");
   });  
 });
 
