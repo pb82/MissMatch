@@ -13,9 +13,12 @@ describe("Basic tests (module integrity)", function() {
       .toBe('function');
       
     expect(typeof mm.compile)
-      .toBe('function');     
-      
-    expect(mm.match(mm, {
+      .toBe('function');
+
+      expect(mm.version)
+          .toBe('1.0.0');
+
+      expect(mm.match(mm, {
       'o(.match:f@m, .matchJSON:f, .compile:f)': function () {
         return typeof this.m === 'function';
       }
@@ -229,7 +232,7 @@ describe("Literals test", function() {
       'n(1,  -1E-3)@n': function() {return this.n} 
     })).toBe(-.001);
 
-    expect(mm.match(-0E-4, { 
+    expect(mm.match(-0E-4, {
       'n(-0e-4)@n': function() {return this.n} 
     })).toBe(0);
 
