@@ -106,6 +106,8 @@ mm.match({x: 5, y: 6}, {
 }, {arrow: true});
 ```
 
+When using arrow functions, bound parameters will be passed as arguments to them.
+
 Matching objects
 ----------------
 
@@ -231,6 +233,11 @@ Node.js
 
 Version History
 ---------------
+  - 1.0.0
+    * `matchArgs` has been removed
+    * Options can be passed into `match` as a third argument
+    * Support for arrow function via the `arrow: true` option
+
   - 0.1.4
     * bugfix: accidentally added grunt-cli to dependencies instead of dev-dependencies
 
